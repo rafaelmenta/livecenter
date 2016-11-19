@@ -1,7 +1,7 @@
 <html ng-app="livecenter">
 <head>
   <title>Draft Brasil Livecenter</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/main.css">
 </head>
 <body>
@@ -18,16 +18,75 @@
   <div class="content" ng-controller="Home">
     <h2>Jogos de hoje</h2>
     <ul class="game-list">
-      <li class="game-container" ng-repeat="game in games">
+      <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)">
         <p class="game-team-line">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
         <p class="game-team-line">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
         <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>
       </li>
     </ul>
+    <div class="boxscore-container">
+      <div class="boxscore" ng-repeat="team in selectedGame && [selectedGame.homeTeam, selectedGame.awayTeam]">
+        <table>
+          <thead class="table-header">
+            <th class="name">nome</th>
+            <th>mins</th>
+            <th>fg</th>
+            <th>ft</th>
+            <th>3pt</th>
+            <th>or</th>
+            <th>dr</th>
+            <th>reb</th>
+            <th>ast</th>
+            <th>blk</th>
+            <th>stl</th>
+            <th>to</th>
+            <th>f</th>
+            <th>pts</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="player in team.gamePlayers" ng-click="togglePlayer(player)" ng-class="{ 'notified' : myPlayers()[player.profile.playerId] }">
+              <td class="name"><span ng-class="courtStatus(player.boxscore)">{{player.profile.displayName}}</span> <span class="position">{{player.profile.position}}</span></td>
+              <td>{{player.statTotal.mins | digits:2}}:{{player.statTotal.secs | digits:2}}</td>
+              <td>{{player.statTotal.fgm}}-{{player.statTotal.fga}}</td>
+              <td>{{player.statTotal.ftm}}-{{player.statTotal.fta}}</td>
+              <td>{{player.statTotal.tpm}}-{{player.statTotal.tpa}}</td>
+              <td>{{player.statTotal.offRebs}}</td>
+              <td>{{player.statTotal.defRebs}}</td>
+              <td>{{player.statTotal.rebs}}</td>
+              <td>{{player.statTotal.assists}}</td>
+              <td>{{player.statTotal.blocks}}</td>
+              <td>{{player.statTotal.steals}}</td>
+              <td>{{player.statTotal.turnovers}}</td>
+              <td>{{player.statTotal.fouls}}</td>
+              <td>{{player.statTotal.points}}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="totals">
+              <td colspan="2" class="team">time</td>
+              <td>{{team.score.fgm}}-{{team.score.fga}}</td>
+              <td>{{team.score.ftm}}-{{team.score.fta}}</td>
+              <td>{{team.score.tpm}}-{{team.score.tpa}}</td>
+              <td>{{team.score.offRebs}}</td>
+              <td>{{team.score.defRebs}}</td>
+              <td>{{team.score.rebs}}</td>
+              <td>{{team.score.assists}}</td>
+              <td>{{team.score.blocks}}</td>
+              <td>{{team.score.steals}}</td>
+              <td>{{team.score.turnovers}}</td>
+              <td>{{team.score.fouls}}</td>
+              <td>{{team.score.score}}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
   </div>
   <script src="../vendor/angular/angular.js"></script>
   <script src="scripts/app.js"></script>
+  <script src="scripts/filter/digits.js"></script>
   <script src="scripts/controller/home.js"></script>
   <script src="scripts/service/game.js"></script>
+  <script src="scripts/service/player-notification.js"></script>
 </body>
 </html>

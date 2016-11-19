@@ -1,5 +1,5 @@
-angular.module('livecenter').service('Game', function($q, $http) {
-  
+angular.module('livecenter').service('Game', function($q, $http, PlayerNotification) {
+
   var json = {
   today : [
     '0021600174',
@@ -18,36 +18,61 @@ angular.module('livecenter').service('Game', function($q, $http) {
   var API = 'https://crossorigin.me/http://au.global.nba.com/stats2/game/snapshotlive.json';
 
   var GAME_STATUS = {
-  	SCHEDULED : '1',
-  	ONGOING : '2',
-  	FINAL : '3'
+    SCHEDULED : '1',
+    ONGOING : '2',
+    FINAL : '3'
   };
 
-  var isGameLive = function(game) {
-  	return game.boxscore.status === GAME_STATUS.ONGOING;
-  }
+  var gameMap;
+
+  // private
 
   var getBoxScore = function(gameId) {
-  	return $http.get(API, { params : { gameId : gameId } }).then(function(data) { console.log(data); return data.data.payload});
+    return $http.get(API, { params : { gameId : gameId } }).then(function(data) { return data.data.payload});
+  };
+
+  var getGameResults = function(ids) {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+
+    var games = ids.map(function(game) {
+      return getBoxScore(game);
+    });
+
+    $q.all(games).then(function(results) {
+      results.map(function(game) {
+        gameMap[game.gameProfile.gameId] = game;
+      });
+
+      PlayerNotification.send(results);
+      deferred.resolve(gameMap);
+    });
+
+    return deferred.promise;
+  }
+
+  // public
+
+  var isGameLive = function(game) {
+    return game.boxscore.status === GAME_STATUS.ONGOING;
   }
 
   var getGames = function() {
-  	var deferred = $q.defer();
-  	var promise = deferred.promise;
 
-  	var games = json.today.map(function(game) {
-  	  return getBoxScore(game);
-  	});
+    if (gameMap) {
+      var updateables = Object.keys(gameMap).filter(function(id) {
+        return isGameLive(gameMap[id]);
+      });
 
-  	$q.all(games).then(function(results) {
-  		deferred.resolve(results);
-  	});
+      return getGameResults(updateables);
+    }
 
-  	return deferred.promise;
+    gameMap = {};
+    return getGameResults(json.today);
   };
 
-  return { 
-  	getGames : getGames,
-  	isGameLive : isGameLive
+  return {
+    getGames : getGames,
+    isGameLive : isGameLive
   };
 });
