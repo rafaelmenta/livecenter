@@ -1,6 +1,7 @@
-<html>
+<html ng-app="livecenter">
 <head>
   <title>Draft Brasil Livecenter</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/main.css">
 </head>
 <body>
@@ -14,5 +15,19 @@
       </ul>
     </nav>
   </header>
+  <div class="content" ng-controller="Home">
+    <h2>Jogos de hoje</h2>
+    <ul class="game-list">
+      <li class="game-container" ng-repeat="game in games">
+        <p class="game-team-line">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
+        <p class="game-team-line">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
+        <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>
+      </li>
+    </ul>
+  </div>
+  <script src="../vendor/angular/angular.js"></script>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controller/home.js"></script>
+  <script src="scripts/service/game.js"></script>
 </body>
 </html>

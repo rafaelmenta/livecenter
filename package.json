@@ -18,5 +18,8 @@
     "gulp": "^3.9.1",
     "gulp-data": "^1.2.1",
     "gulp-stylus": "^2.6.0"
+  },
+  "dependencies": {
+    "angular": "^1.5.8"
   }
 }
