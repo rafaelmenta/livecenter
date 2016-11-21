@@ -1,9 +1,9 @@
-angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API) {
+angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API, Storage) {
 
   var GAMES_API = API.GAMES;
   var API = API.BOX;
 
-  var games, gameMap;
+  var games, gameMap, startedGames = {};
 
   var GAME_STATUS = {
     SCHEDULED : '1',
@@ -39,12 +39,12 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
   var saveStorage = function(games) {
     var gamesString = JSON.stringify(games);
-    localStorage.setItem('games', gamesString);
+    Storage.setItem('games', gamesString);
   };
 
   var getStorage = function() {
-    var gamesString = localStorage.getItem('games');
-    return JSON.parse(gamesString);
+    var gamesString = Storage.getItem('games');
+    return gamesString ? JSON.parse(gamesString) : null;
   }
 
   var getDateGames = function() {
@@ -71,6 +71,18 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     return deferred.promise;
   };
 
+  var updateGameMap = function() {
+	var now = new Date();
+	var timezone = now.dst() ? ' EDT' : ' EST'
+
+  	games.forEach(function(game) {
+  	  var gameTime = new Date(game.game_time + timezone);
+  	  if (!gameMap[game.external_id] && now >= gameTime) {
+  	  	startedGames[game.external_id] = true;
+  	  }
+  	});
+  }
+
   // public
 
   var isGameLive = function(game) {
@@ -81,10 +93,16 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
     return getDateGames().then(function(games) {
       var gameIds = games.map(function(game) { return game.external_id });
+
       if (gameMap) {
+      	updateGameMap();
         var updateables = Object.keys(gameMap).filter(function(id) {
           return isGameLive(gameMap[id]);
         });
+
+        var started = Object.keys(startedGames).forEach(function(id) {
+          updateables.push(id);
+        })
 
         return getGameResults(updateables);
       }
