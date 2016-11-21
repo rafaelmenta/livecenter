@@ -1,29 +1,15 @@
-angular.module('livecenter').service('Game', function($q, $http, PlayerNotification) {
+angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API) {
 
-  var json = {
-  today : [
-    '0021600174',
-    '0021600176',
-    '0021600175',
-    '0021600179',
-    '0021600177',
-    '0021600178',
-    '0021600180',
-    '0021600181',
-    '0021600182',
-    '0021600183'
-  ]
-};
+  var GAMES_API = API.GAMES;
+  var API = API.BOX;
 
-  var API = 'https://crossorigin.me/http://au.global.nba.com/stats2/game/snapshotlive.json';
+  var games, gameMap;
 
   var GAME_STATUS = {
     SCHEDULED : '1',
     ONGOING : '2',
     FINAL : '3'
   };
-
-  var gameMap;
 
   // private
 
@@ -49,7 +35,41 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     });
 
     return deferred.promise;
+  };
+
+  var saveStorage = function(games) {
+    var gamesString = JSON.stringify(games);
+    localStorage.setItem('games', gamesString);
+  };
+
+  var getStorage = function() {
+    var gamesString = localStorage.getItem('games');
+    return JSON.parse(gamesString);
   }
+
+  var getDateGames = function() {
+    var deferred = $q.defer();
+    var promise = deferred.promise;
+
+    if (games) {
+      deferred.resolve(games);
+    } else {
+      var gamesStorage = getStorage();
+      if (gamesStorage) {
+        games = gamesStorage;
+        deferred.resolve(gamesStorage);
+      } else {
+        $http.get(GAMES_API).then(function(response) {
+          var gamesResponse = response.data.games;
+          saveStorage(gamesResponse);
+          games = gamesResponse;
+          deferred.resolve(gamesResponse);
+        });
+      }
+    }
+
+    return deferred.promise;
+  };
 
   // public
 
@@ -59,16 +79,19 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
   var getGames = function() {
 
-    if (gameMap) {
-      var updateables = Object.keys(gameMap).filter(function(id) {
-        return isGameLive(gameMap[id]);
-      });
+    return getDateGames().then(function(games) {
+      var gameIds = games.map(function(game) { return game.external_id });
+      if (gameMap) {
+        var updateables = Object.keys(gameMap).filter(function(id) {
+          return isGameLive(gameMap[id]);
+        });
 
-      return getGameResults(updateables);
-    }
+        return getGameResults(updateables);
+      }
 
-    gameMap = {};
-    return getGameResults(json.today);
+      gameMap = {};
+      return getGameResults(gameIds);
+    });
   };
 
   return {
