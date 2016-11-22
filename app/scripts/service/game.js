@@ -87,7 +87,24 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
   var isGameLive = function(game) {
     return game.boxscore.status === GAME_STATUS.ONGOING;
-  }
+  };
+
+  var isWinner = function(game, teamId) {
+    var away = {
+      id : game.gameProfile.awayTeamId,
+      score : game.boxscore.awayScore
+    };
+
+    var home = {
+      id : game.gameProfile.homeTeamId,
+      score : game.boxscore.homeScore
+    };
+
+    return game.boxscore.status === GAME_STATUS.FINAL &&
+      ((teamId === away.id && away.score > home.score) ||
+       (teamId === home.id && home.score > away.score));
+
+  };
 
   var getGames = function() {
 
@@ -114,6 +131,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
   return {
     getGames : getGames,
-    isGameLive : isGameLive
+    isGameLive : isGameLive,
+    isWinner : isWinner
   };
 });

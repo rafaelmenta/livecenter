@@ -69,7 +69,8 @@ h2 {
   cursor: pointer;
   padding: 0.2em;
 }
-.game-container:hover {
+.game-container:hover,
+.game-container.selected {
   background: rgba(0,0,95,0.1);
 }
 .game-container .game-team-line {
@@ -77,6 +78,11 @@ h2 {
   margin-top: 0.4em;
   padding: 0;
   font-size: 0.8em;
+}
+.game-container .game-team-line.winner {
+  font-weight: bold;
+  background: #004875;
+  color: #f5e7c9;
 }
 .game-container .game-team-line .score {
   float: right;
@@ -97,10 +103,11 @@ table {
   font-family: 'Droid Sans Mono', monospace;
   font-size: 0.8em;
   border-spacing: 0;
-  width: 1023px;
+  max-width: 1023px;
   text-align: right;
   color: #6c6d6f;
   margin: auto;
+  display: block;
 }
 table .table-header,
 table .name {
@@ -109,7 +116,12 @@ table .name {
 table .name {
   width: 30%;
   text-align: left;
-  padding-left: 3em;
+  padding-left: 2em;
+}
+table .team-name {
+  background: #f5e7c9;
+  color: #005685;
+  text-align: left;
 }
 th {
   background: #6c6d6f;
@@ -138,7 +150,6 @@ tr:hover {
   background: #e6b332 !important;
 }
 .boxscore-container {
-  display: table;
   margin: auto;
 }
 .boxscore {
@@ -155,6 +166,9 @@ tr:hover {
   font-size: 0.7em;
   position: relative;
   top: -4px;
+}
+.boxscore .dnp {
+  text-align: center;
 }
 .boxscore .totals {
   background: #ccc;

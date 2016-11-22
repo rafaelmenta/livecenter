@@ -1,10 +1,11 @@
 site_color = #005685
+site_background = #f5e7c9
 
 body
   font-family: 'Open Sans', sans-serif
   padding 0
   margin 0
-  background #f5e7c9
+  background site_background
   color site_color
 
 // navigation
@@ -61,6 +62,8 @@ h2
   margin-bottom 1em
   padding 0
 
+// .selected
+
 .game-container
   list-style none
   width	8em
@@ -71,27 +74,31 @@ h2
   cursor pointer
   padding 0.2em
   &:hover
+  &.selected
     background rgba(0,0,95, 0.1)
 
   .game-team-line
-  	margin 0.3em
-  	margin-top 0.4em
-  	padding 0
-  	font-size 0.8em
+    margin 0.3em
+    margin-top 0.4em
+    padding 0
+    font-size 0.8em
+    &.winner
+      font-weight bold
+      background #004875
+      color site_background
 
-  	.score
-  	  float right
+    .score
+      float right
 
   .status
-  	font-size 0.6em
-  	.live
-  	  // float left
-  	  background #32d99c
-  	  color white
-  	  padding-left 0.4em
-  	  padding-right 0.4em
-  	.statusDesc
-  	  float right
+    font-size 0.6em
+    .live
+      background #32d99c
+      color white
+      padding-left 0.4em
+      padding-right 0.4em
+    .statusDesc
+      float right
 
 // boxscore
 
@@ -99,16 +106,21 @@ table
   font-family 'Droid Sans Mono', monospace
   font-size 0.8em
   border-spacing 0
-  width 1023px
+  max-width 1023px
   text-align right
   color #6c6d6f
   margin auto
+  display block
   .table-header, .name
     font-family 'Open Sans', sans-serif
   .name
     width 30%
     text-align left
-    padding-left 3em
+    padding-left 2em
+  .team-name
+    background site_background
+    color site_color
+    text-align left
 
 th
   background #6c6d6f
@@ -131,11 +143,12 @@ tr
   background #e6b332 !important
 
 .boxscore-container
-  display table
+  // display table
   margin auto
 
 .boxscore
   margin 1em
+  // max-width 1023px
   .starter
     &::after
       content '*'
@@ -146,6 +159,8 @@ tr
     font-size 0.7em
     position relative
     top -4px
+  .dnp
+    text-align center
   .totals
     background #ccc
     font-weight bold

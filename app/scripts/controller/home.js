@@ -3,6 +3,11 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   $scope.greet = 'hi';
   $scope.games = {};
   $scope.myPlayers = PlayerNotification.watchedPlayers;
+  $scope.isWinner = function(game, teamId) {
+    return {
+      'winner' : Game.isWinner(game, teamId)
+    }
+  };
 
   var gameLoop = function() {
 

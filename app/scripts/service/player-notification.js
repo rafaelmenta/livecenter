@@ -6,10 +6,6 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
   var watchedPlayers = {};
   var lastStat = {};
 
-  Notification.requestPermission(function(result) {
-    permission = result;
-  });
-
   // private
 
   var getActivity = function(player) {
@@ -81,7 +77,6 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
   // public
 
   var notify = function(msg) {
-    console.log('notifying msg', msg);
     var n = new Notification(msg);
   };
 

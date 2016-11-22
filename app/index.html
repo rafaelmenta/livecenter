@@ -18,9 +18,9 @@
   <div class="content" ng-controller="Home">
     <h2>Jogos de hoje</h2>
     <ul class="game-list">
-      <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)">
-        <p class="game-team-line">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
-        <p class="game-team-line">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
+      <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)" ng-class="{'selected' : selectedGame.gameProfile.gameId===id}">
+        <p class="game-team-line" ng-class="isWinner(game, game.homeTeam.profile.id)">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
+        <p class="game-team-line" ng-class="isWinner(game, game.awayTeam.profile.id)">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
         <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>
       </li>
     </ul>
@@ -28,37 +28,43 @@
       <div class="boxscore" ng-repeat="team in selectedGame && [selectedGame.homeTeam, selectedGame.awayTeam]">
         <table>
           <thead class="table-header">
-            <th class="name">nome</th>
-            <th>mins</th>
-            <th>fg</th>
-            <th>ft</th>
-            <th>3pt</th>
-            <th>or</th>
-            <th>dr</th>
-            <th>reb</th>
-            <th>ast</th>
-            <th>blk</th>
-            <th>stl</th>
-            <th>to</th>
-            <th>f</th>
-            <th>pts</th>
+            <tr>
+              <th colspan="14" class="team-name">{{team.profile.city}} {{team.profile.name}}</th>
+            </tr>
+            <tr>
+              <th class="name">nome</th>
+              <th>mins</th>
+              <th>fg</th>
+              <th>ft</th>
+              <th>3pt</th>
+              <th>or</th>
+              <th>dr</th>
+              <th>reb</th>
+              <th>ast</th>
+              <th>blk</th>
+              <th>stl</th>
+              <th>to</th>
+              <th>f</th>
+              <th>pts</th>
+            </tr>
           </thead>
           <tbody>
             <tr ng-repeat="player in team.gamePlayers" ng-click="togglePlayer(player)" ng-class="{ 'notified' : myPlayers()[player.profile.playerId] }">
               <td class="name"><span ng-class="courtStatus(player.boxscore)">{{player.profile.displayName}}</span> <span class="position">{{player.profile.position}}</span></td>
-              <td>{{player.statTotal.mins | digits:2}}:{{player.statTotal.secs | digits:2}}</td>
-              <td>{{player.statTotal.fgm}}-{{player.statTotal.fga}}</td>
-              <td>{{player.statTotal.ftm}}-{{player.statTotal.fta}}</td>
-              <td>{{player.statTotal.tpm}}-{{player.statTotal.tpa}}</td>
-              <td>{{player.statTotal.offRebs}}</td>
-              <td>{{player.statTotal.defRebs}}</td>
-              <td>{{player.statTotal.rebs}}</td>
-              <td>{{player.statTotal.assists}}</td>
-              <td>{{player.statTotal.blocks}}</td>
-              <td>{{player.statTotal.steals}}</td>
-              <td>{{player.statTotal.turnovers}}</td>
-              <td>{{player.statTotal.fouls}}</td>
-              <td>{{player.statTotal.points}}</td>
+              <td ng-if="player.boxscore.dnpReason" colspan="13" class="dnp">{{player.boxscore.dnpReason}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.mins | digits:2}}:{{player.statTotal.secs | digits:2}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.fgm}}-{{player.statTotal.fga}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.ftm}}-{{player.statTotal.fta}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.tpm}}-{{player.statTotal.tpa}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.offRebs}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.defRebs}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.rebs}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.assists}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.blocks}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.steals}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.turnovers}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.fouls}}</td>
+              <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.points}}</td>
             </tr>
           </tbody>
           <tfoot>
