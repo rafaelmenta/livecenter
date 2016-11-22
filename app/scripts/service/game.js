@@ -77,7 +77,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
   	games.forEach(function(game) {
   	  var gameTime = new Date(game.game_time + timezone);
-  	  if (!gameMap[game.external_id] && now >= gameTime) {
+  	  if (gameMap[game.external_id].boxscore.status === GAME_STATUS.SCHEDULED && now >= gameTime) {
   	  	startedGames[game.external_id] = true;
   	  }
   	});

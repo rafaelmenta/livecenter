@@ -18,7 +18,7 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
 
     if (last) {
       var stat = player.statTotal;
-      if (stat.score > last.score) activity.push('Score');
+      if (stat.points > last.points) activity.push('Score');
       if (stat.fouls > last.fouls) activity.push('Foul');
       if (stat.turnovers > last.turnovers) activity.push('Turnover');
       if (stat.steals > last.steals) activity.push('Steal');
@@ -26,6 +26,7 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
       if (stat.assists > last.assists) activity.push('Assist');
       if (stat.defRebs > last.defRebs) activity.push('Def Reb');
       if (stat.offRebs > last.offRebs) activity.push('Off Reb');
+
     }
 
     return activity;
@@ -40,8 +41,11 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
   var loadPlayerNotifications = function(player) {
     if (watchedPlayers[player.profile.playerId]) {
       var activity = updateStatus(player);
-      var message = 'New updates for ' + player.profile.displayName + ': ' + activity.join(', ');
-      return message;
+      if (activity.length > 0) {
+        var message = 'New updates for ' + player.profile.displayName + ': ' + activity.join(', ');
+        return message;
+      }
+      return false;
     }
     return false;
   };
@@ -77,6 +81,7 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
   // public
 
   var notify = function(msg) {
+    console.log('notifying msg', msg);
     var n = new Notification(msg);
   };
 
