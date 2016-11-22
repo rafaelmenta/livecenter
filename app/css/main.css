@@ -1,9 +1,17 @@
 body {
   font-family: 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+  background: #f5e7c9;
+  color: #005685;
 }
 h1 {
-  color: #00008b;
+  color: #baffff;
   display: inline;
+}
+header {
+  background: #005685;
+  padding: 0.5em;
 }
 nav {
   display: inline;
@@ -14,20 +22,49 @@ nav .navigation {
 nav .navigation li {
   display: inline;
   margin: 0.5em;
+  color: #5cafdb;
+  position: relative;
+  cursor: pointer;
+}
+nav .navigation li .line {
+  background: #8cdeff;
+  display: inline-block;
+  position: absolute;
+  top: 1.3em;
+  left: 0;
+  width: 0;
+  height: 0.1em;
+  transition: all 0.3s ease-out;
+}
+nav .navigation li:hover {
+  color: #8cdeff;
+}
+nav .navigation li:hover .line {
+  width: 100%;
+}
+.content {
+  padding: 0.5em;
+  height: auto;
+  display: block;
+}
+h2 {
+  margin: 0;
 }
 .game-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin: 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0;
 }
 .game-container {
   list-style: none;
   width: 8em;
   height: 4em;
-  background: #fff;
-  border-top: solid 1px #000;
-  border-bottom: solid 1px #000;
+  border-top: solid 1px #005685;
+  border-bottom: solid 1px #005685;
   margin: 0.275em;
   cursor: pointer;
   padding: 0.2em;
@@ -48,7 +85,7 @@ nav .navigation li {
   font-size: 0.6em;
 }
 .game-container .status .live {
-  background: #008000;
+  background: #32d99c;
   color: #fff;
   padding-left: 0.4em;
   padding-right: 0.4em;
@@ -60,7 +97,7 @@ table {
   font-family: 'Droid Sans Mono', monospace;
   font-size: 0.8em;
   border-spacing: 0;
-  width: 100%;
+  width: 1023px;
   text-align: right;
   color: #6c6d6f;
   margin: auto;
@@ -77,14 +114,16 @@ table .name {
 th {
   background: #6c6d6f;
   padding: 0.5em;
+  padding-right: 2em;
   color: #fff;
 }
 td {
   padding: 0.3em;
+  padding-right: 2em;
   margin: 0;
 }
 tr:nth-child(odd) {
-  background: #e8edff;
+  background: #d8e8e8;
 }
 tr:nth-child(even) {
   background: #fff;
@@ -96,14 +135,13 @@ tr:hover {
   background: #ffffe0;
 }
 .notified {
-  background: #ff0 !important;
+  background: #e6b332 !important;
 }
 .boxscore-container {
-  background: #edeef0;
-  display: flex;
+  display: table;
+  margin: auto;
 }
 .boxscore {
-  max-width: 970px;
   margin: 1em;
 }
 .boxscore .starter::after {
@@ -111,7 +149,7 @@ tr:hover {
 }
 .boxscore .on-court {
   font-weight: bold;
-  color: #f00;
+  color: #d93644;
 }
 .boxscore .position {
   font-size: 0.7em;

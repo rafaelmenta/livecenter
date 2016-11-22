@@ -1,11 +1,21 @@
+site_color = #005685
+
 body
   font-family: 'Open Sans', sans-serif
-  
+  padding 0
+  margin 0
+  background #f5e7c9
+  color site_color
+
 // navigation
 
 h1
-  color darkblue
+  color #baffff
   display inline
+
+header
+  background #005685
+  padding 0.5em
 nav
   display inline
   .navigation
@@ -13,22 +23,50 @@ nav
     li
       display inline
       margin 0.5em
+      color #5cafdb
+      position relative
+      cursor pointer
+      .line
+        background #8cdeff
+        display inline-block
+        position absolute
+        top 1.3em
+        left 0
+        width 0
+        height 0.1em
+        transition all 0.3s ease-out
+      &:hover
+        color #8cdeff
+        .line
+          width 100%
+
+// content
+
+.content
+  padding 0.5em
+  height auto
+  display block
 
 // games list
+
+h2
+  margin 0
 
 .game-list
   display flex
   flex-direction row
   flex-wrap wrap
   margin 0
+  margin-top 1em
+  margin-bottom 1em
+  padding 0
 
 .game-container
   list-style none
   width	8em
   height 4em
-  background #fff
-  border-top solid 1px #000
-  border-bottom solid 1px #000
+  border-top solid 1px site_color
+  border-bottom solid 1px site_color
   margin 0.275em
   cursor pointer
   padding 0.2em
@@ -48,20 +86,20 @@ nav
   	font-size 0.6em
   	.live
   	  // float left
-  	  background green
+  	  background #32d99c
   	  color white
   	  padding-left 0.4em
   	  padding-right 0.4em
   	.statusDesc
   	  float right
-  	  
+
 // boxscore
 
 table
   font-family 'Droid Sans Mono', monospace
   font-size 0.8em
   border-spacing 0
-  width 100%
+  width 1023px
   text-align right
   color #6c6d6f
   margin auto
@@ -75,12 +113,14 @@ table
 th
   background #6c6d6f
   padding 0.5em
+  padding-right 2em
   color #fff
 td
   padding 0.3em
+  padding-right 2em
   margin 0
 tr:nth-child(odd)
-  background #e8edff
+  background #d8e8e8
 tr:nth-child(even)
   background #fff
 tr
@@ -88,23 +128,20 @@ tr
   &:hover
     background lightyellow
 .notified
-  background yellow !important
+  background #e6b332 !important
 
 .boxscore-container
-  background #edeef0
-  display flex
+  display table
+  margin auto
 
 .boxscore
-  max-width 970px
   margin 1em
-  // display flex
-  // flex-flow row
   .starter
     &::after
       content '*'
   .on-court
     font-weight bold
-    color red
+    color #d93644
   .position
     font-size 0.7em
     position relative
