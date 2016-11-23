@@ -25,7 +25,7 @@
       <div class="overlay"><div class="spinner"></div></div>
       <h2>Jogos de hoje</h2>
       <ul class="game-list">
-        <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)" ng-class="{'selected' : selectedGame.gameProfile.gameId===id}">
+        <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)" ng-class="{'selected' : selectedGame.gameProfile.gameId===id, 'unavailable' : isFutureGame(game)}">
           <p class="game-team-line" ng-class="isWinner(game, game.homeTeam.profile.id)">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
           <p class="game-team-line" ng-class="isWinner(game, game.awayTeam.profile.id)">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
           <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>

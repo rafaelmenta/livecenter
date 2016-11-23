@@ -138,6 +138,10 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     return game.boxscore.status === GAME_STATUS.ONGOING;
   };
 
+  var isFutureGame = function(game) {
+  	return game.boxscore.status === GAME_STATUS.SCHEDULED;
+  }
+
   var isWinner = function(game, teamId) {
     var away = {
       id : game.gameProfile.awayTeamId,
@@ -163,6 +167,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   return {
     getGames : getGames,
     isGameLive : isGameLive,
+    isFutureGame : isFutureGame,
     isWinner : isWinner
   };
 });

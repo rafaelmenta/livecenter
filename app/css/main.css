@@ -89,6 +89,7 @@ nav .navigation li:hover .line {
   width: 101%;
   height: 100%;
   opacity: 0;
+  visibility: hidden;
 }
 .game-list-container.loading {
   opacity: 0.4;
@@ -96,6 +97,7 @@ nav .navigation li:hover .line {
 .game-list-container.loading .overlay {
   opacity: 1;
   background: rgba(0,0,0,0.3);
+  visibility: visible;
 }
 h2 {
   margin: 0;
@@ -118,6 +120,9 @@ h2 {
   margin: 0.275em;
   cursor: pointer;
   padding: 0.2em;
+}
+.game-container.unavailable {
+  cursor: not-allowed;
 }
 .game-container:hover,
 .game-container.selected {

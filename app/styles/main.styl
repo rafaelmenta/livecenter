@@ -89,12 +89,13 @@ nav
     width 101%
     height 100%
     opacity 0
+    visibility hidden
   &.loading
     opacity 0.4
     .overlay
       opacity 1
       background rgba(0,0,0,0.3)
-      // opacity 0.8
+      visibility visible
 
 h2
   margin 0
@@ -119,6 +120,8 @@ h2
   margin 0.275em
   cursor pointer
   padding 0.2em
+  &.unavailable
+  	cursor not-allowed
   &:hover
   &.selected
     background rgba(0,0,95, 0.1)

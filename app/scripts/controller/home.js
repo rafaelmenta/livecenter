@@ -17,6 +17,7 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   $scope.selectDate = function(date) {
     Datepicker.selectDate(date);
     $scope.selectedDate = date;
+    $scope.selectedGame = null;
     $scope.isLoading = true;
   }
 
@@ -40,7 +41,10 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   }
 
   $scope.selectGame = function(id) {
-    $scope.selectedGame = $scope.games[id];
+    var game = $scope.games[id];
+    if (!Game.isFutureGame(game)) {
+      $scope.selectedGame = game;      
+    }
   };
 
   $scope.courtStatus = function(profile) {
@@ -54,4 +58,5 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   gameLoop();
 
   $scope.isLive = Game.isGameLive;
+  $scope.isFutureGame = Game.isFutureGame;
 });
