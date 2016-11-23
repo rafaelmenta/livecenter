@@ -1,4 +1,4 @@
-angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API, Storage, $filter) {
+angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API, Storage, Datepicker, $filter) {
 
   var GAMES_API = API.GAMES;
   var API = API.BOX;
@@ -52,26 +52,33 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   var getDateGames = function(date) {
     var deferred = $q.defer();
     var promise = deferred.promise;
+    var shouldRefresh = date !== gamesDate;
+    var gamesStorage = getStorage();
+    var url = GAMES_API;
 
-    if (games && date === gamesDate) {
-      deferred.resolve(games);
+    var info = {
+      date : date
+    };
+
+    if (games && !shouldRefresh) {
+      info.games = games;
+      deferred.resolve(info);      
+    } else if (gamesStorage && !shouldRefresh) {
+      games = gamesStorage;
+      info.games = games;
+      deferred.resolve(info);
     } else {
-      var gamesStorage = getStorage();
-      if (gamesStorage && date === gamesDate) {
-        games = gamesStorage;
-        deferred.resolve(gamesStorage);
-      } else {
-        gamesDate = date;
-        var url = GAMES_API;
-        if (gamesDate) url += '/' + dateFilter(gamesDate, 'yyyy-M-d');
-
-        $http.get(url).then(function(response) {
-          var gamesResponse = response.data.games;
+      if (date) url += '/' + dateFilter(date, 'yyyy-M-d');
+      $http.get(url).then(function(response) {
+	    gamesDate = date;
+        var gamesResponse = response.data.games;
+        if (!date) {
           saveStorage(gamesResponse);
-          games = gamesResponse;
-          deferred.resolve(gamesResponse);
-        });
-      }
+        }
+        games = gamesResponse;
+        info.games = gamesResponse;
+        deferred.resolve(info);
+      });
     }
 
     return deferred.promise;
@@ -89,6 +96,40 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
         }
       });
     }
+  };
+
+  var getUpdteableGames = function() {
+  	var updateables = Object.keys(gameMap).filter(function(id) {
+      return isGameLive(gameMap[id]);
+    });
+    
+    Object.keys(startedGames).forEach(function(id) {
+      updateables.push(id);
+    });
+
+    return updateables;
+  }
+
+  var getResults = function(info) {
+  	if (info.games) {
+  	  var shouldRefresh = !info.date || info.date === Datepicker.getToday();
+      var gameIds = info.games.map(function(game) { return game.external_id });
+
+      if (gameMap && shouldRefresh) {
+        updateGameMap();
+        gameIds = getUpdteableGames();
+      } else {
+        gameMap = {};
+      }
+
+      return getGameResults(gameIds);
+    }
+
+    var errorObj = {
+      error : true,
+      info : 'info.games not found'
+    };
+    return errorObj;
   }
 
   // public
@@ -115,26 +156,8 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   };
 
   var getGames = function(date) {
-    var shouldRefresh = date !== gamesDate;
-    return getDateGames(date).then(function(games) {
-      var gameIds = games.map(function(game) { return game.external_id });
-
-      if (gameMap && !shouldRefresh) {
-        updateGameMap();
-        var updateables = Object.keys(gameMap).filter(function(id) {
-          return isGameLive(gameMap[id]);
-        });
-
-        var started = Object.keys(startedGames).forEach(function(id) {
-          updateables.push(id);
-        })
-
-        return getGameResults(updateables);
-      }
-
-      gameMap = {};
-      return getGameResults(gameIds);
-    });
+    var dateGames = getDateGames(date).then(getResults);
+    return dateGames;
   };
 
   return {

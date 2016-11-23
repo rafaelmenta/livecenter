@@ -37,11 +37,16 @@ angular.module('livecenter').service('Datepicker', function() {
     return selectedDate && date.getTime() === selectedDate.getTime();
   };
 
+  var getToday = function() {
+    return today;
+  }
+
   return {
     getCarousel : getCarousel,
     selectDate : selectDate,
     isDateSelected : isDateSelected,
-    rotateCarousel : rotateCarousel
+    rotateCarousel : rotateCarousel,
+    getToday : getToday 
   };
 
 });
