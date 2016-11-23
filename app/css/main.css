@@ -52,6 +52,16 @@ nav .navigation li:hover .line {
   display: flex;
   padding: 0;
 }
+.calendar .backward,
+.calendar .forward {
+  margin: auto;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+.calendar .backward:hover,
+.calendar .forward:hover {
+  color: #32d99c;
+}
 .calendar .date {
   display: inline;
   margin: 1em;
@@ -66,6 +76,26 @@ nav .navigation li:hover .line {
 .calendar .date:hover {
   background: #005685;
   color: #f5e7c9;
+}
+.game-list-container {
+  position: relative;
+  opacity: 1;
+  transition: all 0.4s;
+}
+.game-list-container .overlay {
+  display: block;
+  position: absolute;
+  left: -0.5em;
+  width: 101%;
+  height: 100%;
+  opacity: 0;
+}
+.game-list-container.loading {
+  opacity: 0.4;
+}
+.game-list-container.loading .overlay {
+  opacity: 1;
+  background: rgba(0,0,0,0.3);
 }
 h2 {
   margin: 0;
@@ -197,4 +227,82 @@ tr:hover {
 .boxscore .team {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: #005685;
+  position: absolute;
+  margin: -20px auto;
+  top: 50%;
+  left: 50%;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+@-webkit-keyframes sk-rotateplane {
+  0% {
+    -webkit-transform: perspective(120px);
+  }
+  50% {
+    -webkit-transform: perspective(120px) rotateY(180deg);
+  }
+  100% {
+    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+  }
+}
+@-moz-keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+@-webkit-keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+@-o-keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
 }

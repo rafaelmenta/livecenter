@@ -1,5 +1,5 @@
 angular.module('livecenter').service('Storage', function($window) {
-  
+
   var localStorage = $window.localStorage;
 
   // private
@@ -42,7 +42,8 @@ angular.module('livecenter').service('Storage', function($window) {
 
   return {
   	setItem : setItem,
-  	getItem : getItem
+  	getItem : getItem,
+    isExpired : isExpired
   };
 
 });

@@ -1,4 +1,4 @@
-angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification) {
+angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification, Datepicker) {
 
   $scope.greet = 'hi';
   $scope.games = {};
@@ -9,25 +9,22 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
     }
   };
 
-  // @TODO move to a service
-  $scope.dates = [];
-  for (var i = -2; i <= 2; ++i) {
-    var date = new Date();
-    date.setDate(date.getDate() + i);
-    $scope.dates.push({
-      date : date,
-      isSelected : false
-    });
+  Datepicker.selectDate();
+  $scope.dates = Datepicker.getCarousel;
+  $scope.rotate = Datepicker.rotateCarousel;
+  $scope.isSelected = Datepicker.isDateSelected;
+
+  $scope.selectDate = function(date) {
+    Datepicker.selectDate(date);
+    $scope.selectedDate = date;
+    $scope.isLoading = true;
   }
-
-  $scope.dates[2].isSelected = true;
-
-  // ENDTODO
 
   var gameLoop = function() {
 
-  	Game.getGames().then(function(data) {
-  	  $scope.games = angular.extend($scope.games, data);
+    Game.getGames($scope.selectedDate).then(function(data) {
+      $scope.games = data;
+      $scope.isLoading = false;
 
       if ($scope.selectedGame) {
         $scope.selectGame($scope.selectedGame.gameProfile.gameId)

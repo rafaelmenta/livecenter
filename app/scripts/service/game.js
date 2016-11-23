@@ -1,15 +1,17 @@
-angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API, Storage) {
+angular.module('livecenter').service('Game', function($q, $http, PlayerNotification, API, Storage, $filter) {
 
   var GAMES_API = API.GAMES;
   var API = API.BOX;
 
-  var games, gameMap, startedGames = {};
+  var gamesDate, games, gameMap, startedGames = {};
 
   var GAME_STATUS = {
     SCHEDULED : '1',
     ONGOING : '2',
     FINAL : '3'
   };
+
+  var dateFilter = $filter('date');
 
   // private
 
@@ -47,19 +49,23 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     return gamesString ? JSON.parse(gamesString) : null;
   }
 
-  var getDateGames = function() {
+  var getDateGames = function(date) {
     var deferred = $q.defer();
     var promise = deferred.promise;
 
-    if (games) {
+    if (games && date === gamesDate) {
       deferred.resolve(games);
     } else {
       var gamesStorage = getStorage();
-      if (gamesStorage) {
+      if (gamesStorage && date === gamesDate) {
         games = gamesStorage;
         deferred.resolve(gamesStorage);
       } else {
-        $http.get(GAMES_API).then(function(response) {
+        gamesDate = date;
+        var url = GAMES_API;
+        if (gamesDate) url += '/' + dateFilter(gamesDate, 'yyyy-M-d');
+
+        $http.get(url).then(function(response) {
           var gamesResponse = response.data.games;
           saveStorage(gamesResponse);
           games = gamesResponse;
@@ -108,13 +114,13 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
   };
 
-  var getGames = function() {
-
-    return getDateGames().then(function(games) {
+  var getGames = function(date) {
+    var shouldRefresh = date !== gamesDate;
+    return getDateGames(date).then(function(games) {
       var gameIds = games.map(function(game) { return game.external_id });
 
-      if (gameMap) {
-      	updateGameMap();
+      if (gameMap && !shouldRefresh) {
+        updateGameMap();
         var updateables = Object.keys(gameMap).filter(function(id) {
           return isGameLive(gameMap[id]);
         });

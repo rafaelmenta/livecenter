@@ -1,5 +1,6 @@
 site_color = #005685
 site_background = #f5e7c9
+green = #32d99c;
 
 body
   font-family: 'Open Sans', sans-serif
@@ -47,28 +48,53 @@ nav
   padding 0.5em
   height auto
   display block
-  
+
 // calendar
 
 .calendar
   list-style none
   display flex
   padding 0
+  .backward
+  .forward
+    margin auto
+    font-size 1.5em
+    cursor pointer
+    &:hover
+      color green
   .date
-  	display inline
-  	margin 1em
-  	width 100%
-  	padding 0.5em
-  	text-align center
-  	border-top solid 1px site_color
-  	border-bottom solid 1px site_color
-  	cursor pointer
-  	&.selected
-  	&:hover
-  	  background site_color
-  	  color site_background
+    display inline
+    margin 1em
+    width 100%
+    padding 0.5em
+    text-align center
+    border-top solid 1px site_color
+    border-bottom solid 1px site_color
+    cursor pointer
+    &.selected
+    &:hover
+      background site_color
+      color site_background
 
 // games list
+
+.game-list-container
+  position relative
+  opacity 1
+  transition all 0.4s
+  .overlay
+    display block
+    position absolute
+    left -0.5em
+    width 101%
+    height 100%
+    opacity 0
+  &.loading
+    opacity 0.4
+    .overlay
+      opacity 1
+      background rgba(0,0,0,0.3)
+      // opacity 0.8
 
 h2
   margin 0
@@ -187,3 +213,37 @@ tr
   .team
     text-align center
     font-family 'Open Sans', sans-serif
+
+
+// spinner
+
+.spinner
+  width 40px
+  height 40px
+  background-color site_color
+
+  position absolute
+  margin -20px auto
+  top 50%
+  left 50%
+  -webkit-animation sk-rotateplane 1.2s infinite ease-in-out
+  animation sk-rotateplane 1.2s infinite ease-in-out
+
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  } 100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}

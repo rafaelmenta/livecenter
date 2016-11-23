@@ -17,16 +17,21 @@
   </header>
   <div class="content" ng-controller="Home">
     <ul class="calendar">
-      <li ng-repeat="date in dates" class="date" ng-class="{ 'selected' : date.isSelected}">{{date.date | date:'MMM d'}}</li>
+      <li class="backward" ng-click="rotate(true)">&#9664;</li>
+      <li ng-repeat="date in dates()" class="date" ng-class="{ 'selected' : isSelected(date)}" ng-click="selectDate(date)">{{date | date:'MMM d'}}</li>
+      <li class="forward" ng-click="rotate()">&#9658;</li>
     </ul>
-    <h2>Jogos de hoje</h2>
-    <ul class="game-list">
-      <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)" ng-class="{'selected' : selectedGame.gameProfile.gameId===id}">
-        <p class="game-team-line" ng-class="isWinner(game, game.homeTeam.profile.id)">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
-        <p class="game-team-line" ng-class="isWinner(game, game.awayTeam.profile.id)">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
-        <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>
-      </li>
-    </ul>
+    <div class="game-list-container" ng-class="{'loading' : isLoading}">
+      <div class="overlay"><div class="spinner"></div></div>
+      <h2>Jogos de hoje</h2>
+      <ul class="game-list">
+        <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)" ng-class="{'selected' : selectedGame.gameProfile.gameId===id}">
+          <p class="game-team-line" ng-class="isWinner(game, game.homeTeam.profile.id)">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
+          <p class="game-team-line" ng-class="isWinner(game, game.awayTeam.profile.id)">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
+          <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>
+        </li>
+      </ul>
+    </div>
     <div class="boxscore-container">
       <div class="boxscore" ng-repeat="team in selectedGame && [selectedGame.homeTeam, selectedGame.awayTeam]">
         <table>
@@ -96,6 +101,7 @@
   <script src="scripts/config/constant.js"></script>
   <script src="scripts/filter/digits.js"></script>
   <script src="scripts/controller/home.js"></script>
+  <script src="scripts/service/datepicker.js"></script>
   <script src="scripts/service/storage.js"></script>
   <script src="scripts/service/game.js"></script>
   <script src="scripts/service/player-notification.js"></script>
