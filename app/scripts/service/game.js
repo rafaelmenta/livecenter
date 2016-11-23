@@ -72,15 +72,17 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   };
 
   var updateGameMap = function() {
-	var now = new Date();
-	var timezone = now.dst() ? ' EDT' : ' EST'
+    var now = new Date();
+    var timezone = now.dst() ? ' EDT' : ' EST'
 
-  	games.forEach(function(game) {
-  	  var gameTime = new Date(game.game_time + timezone);
-  	  if (gameMap[game.external_id].boxscore.status === GAME_STATUS.SCHEDULED && now >= gameTime) {
-  	  	startedGames[game.external_id] = true;
-  	  }
-  	});
+	if (games) {
+      games.forEach(function(game) {
+        var gameTime = new Date(game.game_time + timezone);
+        if (gameMap[game.external_id] && gameMap[game.external_id].boxscore.status === GAME_STATUS.SCHEDULED && now >= gameTime) {
+          startedGames[game.external_id] = true;
+        }
+      });
+    }
   }
 
   // public

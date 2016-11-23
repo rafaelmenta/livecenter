@@ -47,6 +47,26 @@ nav
   padding 0.5em
   height auto
   display block
+  
+// calendar
+
+.calendar
+  list-style none
+  display flex
+  padding 0
+  .date
+  	display inline
+  	margin 1em
+  	width 100%
+  	padding 0.5em
+  	text-align center
+  	border-top solid 1px site_color
+  	border-bottom solid 1px site_color
+  	cursor pointer
+  	&.selected
+  	&:hover
+  	  background site_color
+  	  color site_background
 
 // games list
 

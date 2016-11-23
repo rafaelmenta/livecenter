@@ -16,6 +16,9 @@
     </nav>
   </header>
   <div class="content" ng-controller="Home">
+    <ul class="calendar">
+      <li ng-repeat="date in dates" class="date" ng-class="{ 'selected' : date.isSelected}">{{date.date | date:'MMM d'}}</li>
+    </ul>
     <h2>Jogos de hoje</h2>
     <ul class="game-list">
       <li class="game-container" ng-repeat="(id, game) in games" ng-click="selectGame(id)" ng-class="{'selected' : selectedGame.gameProfile.gameId===id}">

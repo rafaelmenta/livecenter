@@ -9,6 +9,21 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
     }
   };
 
+  // @TODO move to a service
+  $scope.dates = [];
+  for (var i = -2; i <= 2; ++i) {
+    var date = new Date();
+    date.setDate(date.getDate() + i);
+    $scope.dates.push({
+      date : date,
+      isSelected : false
+    });
+  }
+
+  $scope.dates[2].isSelected = true;
+
+  // ENDTODO
+
   var gameLoop = function() {
 
   	Game.getGames().then(function(data) {

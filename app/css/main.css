@@ -47,6 +47,26 @@ nav .navigation li:hover .line {
   height: auto;
   display: block;
 }
+.calendar {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+.calendar .date {
+  display: inline;
+  margin: 1em;
+  width: 100%;
+  padding: 0.5em;
+  text-align: center;
+  border-top: solid 1px #005685;
+  border-bottom: solid 1px #005685;
+  cursor: pointer;
+}
+.calendar .date.selected,
+.calendar .date:hover {
+  background: #005685;
+  color: #f5e7c9;
+}
 h2 {
   margin: 0;
 }
