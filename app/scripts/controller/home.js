@@ -1,6 +1,5 @@
 angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification, Datepicker) {
 
-  $scope.greet = 'hi';
   $scope.games = {};
   $scope.myPlayers = PlayerNotification.watchedPlayers;
   $scope.isWinner = function(game, teamId) {
@@ -9,12 +8,21 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
     }
   };
 
+  $scope.isToday = function() {
+    return !$scope.selectedDate || Datepicker.isEqual(Datepicker.getToday(), $scope.selectedDate);
+  };
+
   Datepicker.selectDate();
   $scope.dates = Datepicker.getCarousel;
   $scope.rotate = Datepicker.rotateCarousel;
   $scope.isSelected = Datepicker.isDateSelected;
 
   var timer;
+
+  $scope.selectToday = function() {
+    $scope.selectDate(Datepicker.getToday());
+    Datepicker.resetCarousel();
+  }
 
   $scope.selectDate = function(date) {
     $timeout.cancel(timer);

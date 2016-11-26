@@ -19,14 +19,17 @@ nav {
 nav .navigation {
   display: inline;
 }
-nav .navigation li {
+nav .navigation li,
+nav .navigation a {
   display: inline;
   margin: 0.5em;
   color: #5cafdb;
   position: relative;
   cursor: pointer;
+  text-decoration: none;
 }
-nav .navigation li .line {
+nav .navigation li .line,
+nav .navigation a .line {
   background: #8cdeff;
   display: inline-block;
   position: absolute;
@@ -36,10 +39,13 @@ nav .navigation li .line {
   height: 0.1em;
   transition: all 0.3s ease-out;
 }
-nav .navigation li:hover {
+nav .navigation li:hover,
+nav .navigation a:hover {
   color: #8cdeff;
+  text-decoration: none;
 }
-nav .navigation li:hover .line {
+nav .navigation li:hover .line,
+nav .navigation a:hover .line {
   width: 100%;
 }
 .content {
@@ -47,24 +53,55 @@ nav .navigation li:hover .line {
   height: auto;
   display: block;
 }
-.calendar {
+.calendar-container .button-container {
+  width: 100%;
+  margin-top: 1em;
+}
+.calendar-container .button-container .go-today {
+  margin: auto;
+  display: block;
+  padding: 0.5em;
+  width: 8%;
+  background: #f5e7c9;
+  border: none;
+  border-top: solid 1px #005685;
+  border-bottom: solid 1px #005685;
+  font-family: 'Open Sans', sans-serif;
+  color: #005685;
+  font-size: 0.8em;
+}
+.calendar-container .button-container .go-today:active {
+  border-top-color: #5cafdb;
+  border-bottom-color: #5cafdb;
+  color: #5cafdb;
+}
+.calendar-container .button-container .go-today:disabled {
+  border-top-color: #ccc;
+  border-bottom-color: #ccc;
+  color: #ccc;
+}
+.calendar-container .button-container .go-today:focus {
+  outline: 0;
+}
+.calendar-container .calendar {
   list-style: none;
   display: flex;
   padding: 0;
 }
-.calendar .backward,
-.calendar .forward {
+.calendar-container .calendar .backward,
+.calendar-container .calendar .forward {
   margin: auto;
   font-size: 1.5em;
   cursor: pointer;
 }
-.calendar .backward:hover,
-.calendar .forward:hover {
+.calendar-container .calendar .backward:hover,
+.calendar-container .calendar .forward:hover {
   color: #32d99c;
 }
-.calendar .date {
+.calendar-container .calendar .date {
   display: inline;
   margin: 1em;
+  margin-top: 0.5em;
   width: 100%;
   padding: 0.5em;
   text-align: center;
@@ -72,8 +109,8 @@ nav .navigation li:hover .line {
   border-bottom: solid 1px #005685;
   cursor: pointer;
 }
-.calendar .date.selected,
-.calendar .date:hover {
+.calendar-container .calendar .date.selected,
+.calendar-container .calendar .date:hover {
   background: #005685;
   color: #f5e7c9;
 }

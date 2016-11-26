@@ -1,9 +1,10 @@
 site_color = #005685
 site_background = #f5e7c9
-green = #32d99c;
+green = #32d99c
+site_font = 'Open Sans', sans-serif
 
 body
-  font-family: 'Open Sans', sans-serif
+  font-family site_font
   padding 0
   margin 0
   background site_background
@@ -23,11 +24,13 @@ nav
   .navigation
     display inline
     li
+    a
       display inline
       margin 0.5em
       color #5cafdb
       position relative
       cursor pointer
+      text-decoration none
       .line
         background #8cdeff
         display inline-block
@@ -39,6 +42,7 @@ nav
         transition all 0.3s ease-out
       &:hover
         color #8cdeff
+        text-decoration none
         .line
           width 100%
 
@@ -51,30 +55,57 @@ nav
 
 // calendar
 
-.calendar
-  list-style none
-  display flex
-  padding 0
-  .backward
-  .forward
-    margin auto
-    font-size 1.5em
-    cursor pointer
-    &:hover
-      color green
-  .date
-    display inline
-    margin 1em
+.calendar-container
+  .button-container
     width 100%
-    padding 0.5em
-    text-align center
-    border-top solid 1px site_color
-    border-bottom solid 1px site_color
-    cursor pointer
-    &.selected
-    &:hover
-      background site_color
-      color site_background
+    margin-top 1em
+    .go-today
+      margin auto
+      display block
+      padding 0.5em
+      width 8%
+      background site_background
+      border none
+      border-top solid 1px site_color
+      border-bottom solid 1px site_color
+      font-family site_font
+      color site_color
+      font-size 0.8em
+      &:active
+        border-top-color #5cafdb
+        border-bottom-color #5cafdb
+        color #5cafdb
+      &:disabled
+        border-top-color #ccc
+        border-bottom-color #ccc
+        color #ccc
+      &:focus
+        outline 0
+  .calendar
+    list-style none
+    display flex
+    padding 0
+    .backward
+    .forward
+      margin auto
+      font-size 1.5em
+      cursor pointer
+      &:hover
+        color green
+    .date
+      display inline
+      margin 1em
+      margin-top 0.5em
+      width 100%
+      padding 0.5em
+      text-align center
+      border-top solid 1px site_color
+      border-bottom solid 1px site_color
+      cursor pointer
+      &.selected
+      &:hover
+        background site_color
+        color site_background
 
 // games list
 

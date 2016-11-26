@@ -29,6 +29,10 @@ angular.module('livecenter').service('Datepicker', function() {
     return carouselDates;
   };
 
+  var resetCarousel = function() {
+    generateCarousel();
+  };
+
   var selectDate = function(date) {
     selectedDate = date ? date : today;
   };
@@ -39,14 +43,20 @@ angular.module('livecenter').service('Datepicker', function() {
 
   var getToday = function() {
     return today;
-  }
+  };
+
+  var isEqual = function(date1, date2) {
+    return Date.parse(date1) === Date.parse(date2);
+  };
 
   return {
     getCarousel : getCarousel,
     selectDate : selectDate,
     isDateSelected : isDateSelected,
     rotateCarousel : rotateCarousel,
-    getToday : getToday 
+    getToday : getToday,
+    isEqual : isEqual,
+    resetCarousel : resetCarousel
   };
 
 });

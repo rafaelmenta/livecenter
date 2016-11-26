@@ -1,4 +1,4 @@
-var app = angular.module('livecenter', []);
+var app = angular.module('livecenter', ['ui.router']);
 
 app.config(function() {
   Date.prototype.stdTimezoneOffset = function() {
@@ -10,4 +10,20 @@ app.config(function() {
   Date.prototype.dst = function() {
     return this.getTimezoneOffset() < this.stdTimezoneOffset();
   };
+});
+
+app.config(function($stateProvider, $locationProvider) {
+  $locationProvider.html5Mode(true);
+
+  $stateProvider
+    .state('boxscore', {
+      url : '/',
+      templateUrl: '../views/boxscore.html',
+      controller: 'Home'
+    })
+    .state('myplayers', {
+      url : '/meus-jogadores',
+      templateUrl: '../views/myplayers.html',
+      controller: 'MyPlayers'
+    });
 });
