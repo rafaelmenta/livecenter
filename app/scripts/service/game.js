@@ -3,7 +3,9 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   var GAMES_API = API.GAMES;
   var API = API.BOX;
 
-  var gamesDate, games, gameMap, startedGames = {};
+  var currentDate,
+      scheduleGames,
+      gameResults;
 
   var GAME_STATUS = {
     SCHEDULED : '1',
@@ -19,21 +21,42 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     return $http.get(API + gameId).then(function(data) { return data.data.payload});
   };
 
-  var getGameResults = function(ids) {
+  var getGameResults = function(ids, live) {
     var deferred = $q.defer();
     var promise = deferred.promise;
+    var games;
 
-    var games = ids.map(function(game) {
-      return getBoxScore(game);
-    });
+    var liveMap = {};
+
+    if (live) {
+      games = live.map(function(game) {
+        liveMap[game.gameProfile.gameId] = true;
+        return getBoxScore(game);
+      });
+
+      ids.forEach(function(game) {
+        if (!liveMap[game] && gameResults[game]) {
+          games.push(gameResults[game]);
+        } else {
+          games.push(getBoxScore(game));
+        }
+      })
+
+    } else {
+      games = ids.map(function(game) {
+        return getBoxScore(game);
+      });
+    }
+
 
     $q.all(games).then(function(results) {
+      gameResults = {};
       results.map(function(game) {
-        gameMap[game.gameProfile.gameId] = game;
+        gameResults[game.gameProfile.gameId] = game;
       });
 
       PlayerNotification.send(results);
-      deferred.resolve(gameMap);
+      deferred.resolve(gameResults);
     });
 
     return deferred.promise;
@@ -52,7 +75,8 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   var getDateGames = function(date) {
     var deferred = $q.defer();
     var promise = deferred.promise;
-    var shouldRefresh = date !== gamesDate;
+
+    var shouldRefresh = Date.parse(date) !== Date.parse(currentDate);
     var gamesStorage = getStorage();
     var url = GAMES_API;
 
@@ -60,22 +84,23 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
       date : date
     };
 
-    if (games && !shouldRefresh) {
-      info.games = games;
+    if (scheduleGames && !shouldRefresh) {
+      info.games = scheduleGames;
       deferred.resolve(info);
     } else if (gamesStorage && !shouldRefresh) {
-      games = gamesStorage;
+      scheduleGames = gamesStorage;
       info.games = games;
       deferred.resolve(info);
     } else {
       if (date) url += '/' + dateFilter(date, 'yyyy-M-d');
+
       $http.get(url).then(function(response) {
-	    gamesDate = date;
+      currentDate = date;
         var gamesResponse = response.data.games;
         if (!date) {
           saveStorage(gamesResponse);
         }
-        games = gamesResponse;
+        scheduleGames = gamesResponse;
         info.games = gamesResponse;
         deferred.resolve(info);
       });
@@ -84,24 +109,23 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     return deferred.promise;
   };
 
-  var updateGameMap = function() {
+  var getStartedGames = function(games) {
     var now = new Date();
     var timezone = now.dst() ? ' EDT' : ' EST'
 
-	if (games) {
-      games.forEach(function(game) {
-        var gameTime = new Date(game.game_time + timezone);
-        if (gameMap[game.external_id] && gameMap[game.external_id].boxscore.status === GAME_STATUS.SCHEDULED && now >= gameTime) {
-          startedGames[game.external_id] = true;
-        }
-      });
-    }
+    var startedGames = games.filter(function(game) {
+      var gameTime = new Date(game.game_time + timezone);
+      var result = gameResults && gameResults[game.external_id];
+      return result && result.boxscore.status === GAME_STATUS.SCHEDULED && now >= gameTime;
+    });
+
+    return startedGames;
   };
 
-  var getUpdteableGames = function() {
-  	var updateables = Object.keys(gameMap).filter(function(id) {
-      return isGameLive(gameMap[id]);
-    });
+  var getUpdteableGames = function(startedGames) {
+  	var updateables = gameResults ? Object.keys(gameResults).filter(function(id) {
+      return isGameLive(gameResults[id]);
+    }) : [];
 
     Object.keys(startedGames).forEach(function(id) {
       updateables.push(id);
@@ -111,25 +135,17 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   }
 
   var getResults = function(info) {
-  	if (info.games) {
-  	  var shouldRefresh = !info.date || info.date === Datepicker.getToday();
-      var gameIds = info.games.map(function(game) { return game.external_id });
+    var shouldUpdateIds = !info.date || Date.parse(info.date) === Date.parse(Datepicker.getToday());
 
-      if (gameMap && shouldRefresh) {
-        updateGameMap();
-        gameIds = getUpdteableGames();
-      } else {
-        gameMap = {};
-      }
+    var gameIds = info.games.map(function(game) { return game.external_id });
+    var liveGames;
 
-      return getGameResults(gameIds);
+    if (gameResults && shouldUpdateIds) {
+      var startedGames = getStartedGames(info.games);
+      liveGames = getUpdteableGames(startedGames);
     }
 
-    var errorObj = {
-      error : true,
-      info : 'info.games not found'
-    };
-    return errorObj;
+    return getGameResults(gameIds, liveGames);
   }
 
   // public
@@ -164,10 +180,15 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
     return dateGames;
   };
 
+  var clearGameMap = function() {
+    gameMap = {};
+  }
+
   return {
     getGames : getGames,
     isGameLive : isGameLive,
     isFutureGame : isFutureGame,
-    isWinner : isWinner
+    isWinner : isWinner,
+    clearGameMap : clearGameMap
   };
 });

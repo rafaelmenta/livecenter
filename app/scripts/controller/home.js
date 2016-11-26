@@ -14,11 +14,15 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   $scope.rotate = Datepicker.rotateCarousel;
   $scope.isSelected = Datepicker.isDateSelected;
 
+  var timer;
+
   $scope.selectDate = function(date) {
+    $timeout.cancel(timer);
     Datepicker.selectDate(date);
     $scope.selectedDate = date;
     $scope.selectedGame = null;
     $scope.isLoading = true;
+    gameLoop();
   }
 
   var gameLoop = function() {
@@ -32,7 +36,7 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
       }
     });
 
-    $timeout(gameLoop, 5000);
+    timer = $timeout(gameLoop, 5000);
 
   };
 
@@ -43,7 +47,7 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   $scope.selectGame = function(id) {
     var game = $scope.games[id];
     if (!Game.isFutureGame(game)) {
-      $scope.selectedGame = game;      
+      $scope.selectedGame = game;
     }
   };
 
