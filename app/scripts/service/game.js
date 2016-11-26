@@ -16,7 +16,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   // private
 
   var getBoxScore = function(gameId) {
-    return $http.get(API, { params : { gameId : gameId } }).then(function(data) { return data.data.payload});
+    return $http.get(API + gameId).then(function(data) { return data.data.payload});
   };
 
   var getGameResults = function(ids) {
@@ -62,7 +62,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
 
     if (games && !shouldRefresh) {
       info.games = games;
-      deferred.resolve(info);      
+      deferred.resolve(info);
     } else if (gamesStorage && !shouldRefresh) {
       games = gamesStorage;
       info.games = games;
@@ -102,7 +102,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   	var updateables = Object.keys(gameMap).filter(function(id) {
       return isGameLive(gameMap[id]);
     });
-    
+
     Object.keys(startedGames).forEach(function(id) {
       updateables.push(id);
     });
