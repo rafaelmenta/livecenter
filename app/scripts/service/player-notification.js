@@ -1,12 +1,22 @@
-angular.module('livecenter').service('PlayerNotification', function($window) {
+angular.module('livecenter').service('PlayerNotification', function($window, Storage) {
 
   var Notification = $window.Notification;
   var permission;
 
-  var watchedPlayers = {};
+  var watchedPlayers;
   var lastStat = {};
 
   // private
+
+  var getPersistedPlayers = function() {
+    var players = Storage.getItem('players');
+    return players;
+  }
+
+  var initNotificatonPlayers = function() {
+    watchedPlayers = JSON.parse(getPersistedPlayers());
+    if (!watchedPlayers) watchedPlayers = {};
+  };
 
   var getActivity = function(player) {
     var activity = [];
@@ -68,7 +78,7 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
   var loadGamesNotifications = function(games) {
     var notifications = [];
     games.forEach(function(game) {
-      notifications = loadGameNotifications(game);
+      notifications = notifications.concat(loadGameNotifications(game));
     });
 
     return notifications;
@@ -81,7 +91,14 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
   };
 
   var togglePlayer = function(player) {
-   watchedPlayers[player.profile.playerId] = !watchedPlayers[player.profile.playerId];
+    var id = player.profile.playerId;
+    if (watchedPlayers[id]) {
+      delete watchedPlayers[id];
+    } else {
+      watchedPlayers[id] = player;
+   }
+
+   Storage.setItem('players', JSON.stringify(watchedPlayers), true);
   };
 
   var getWatchedPlayers = function() {
@@ -90,19 +107,25 @@ angular.module('livecenter').service('PlayerNotification', function($window) {
 
   var sendNotifications = function(games) {
     var notifications = loadGamesNotifications(games);
-
     notifications.forEach(function(msg) {
       notify(msg);
     })
   };
 
+  var removePlayer = function(player) {
+    togglePlayer(player);
+  }
+
   // var requestPermission = function()
+
+  initNotificatonPlayers();
 
   return {
     notify : notify,
     togglePlayer : togglePlayer,
     watchedPlayers : getWatchedPlayers,
-    send : sendNotifications
+    send : sendNotifications,
+    removePlayer : removePlayer
   };
 
 });

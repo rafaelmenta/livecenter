@@ -48,6 +48,44 @@ nav .navigation li:hover .line,
 nav .navigation a:hover .line {
   width: 100%;
 }
+.my-players-container {
+  margin-top: 2em;
+}
+.my-players-container .notify-player-list {
+  width: 100%;
+  display: table;
+}
+.my-players-container .notify-player-list .remove {
+  padding: 1em;
+  padding-left: 0.5em;
+}
+.my-players-container .notify-player-list .remove .remove-icon {
+  visibility: hidden;
+}
+.my-players-container .notify-player-list .player .name {
+  padding-left: 0;
+}
+.my-players-container .notify-player-list .player:hover {
+  background: #005685;
+  color: #f5e7c9;
+}
+.my-players-container .notify-player-list .player:hover .remove {
+  color: inherit;
+}
+.my-players-container .notify-player-list .player:hover .remove .remove-icon {
+  visibility: visible;
+}
+.my-players-container .notify-player-list .player:hover .remove:hover {
+  color: #8cdeff;
+}
+.my-players-container .notify-player-list .name .position {
+  font-size: 0.6em;
+  position: relative;
+  top: -0.4em;
+}
+.my-players-container .notify-player-list .controls {
+  text-align: right;
+}
 .content {
   padding: 0.5em;
   height: auto;

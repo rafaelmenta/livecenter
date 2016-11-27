@@ -24,30 +24,27 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   var getGameResults = function(ids, live) {
     var deferred = $q.defer();
     var promise = deferred.promise;
-    var games;
+    var games = [];
 
     var liveMap = {};
 
     if (live) {
       games = live.map(function(game) {
-        liveMap[game.gameProfile.gameId] = true;
+        liveMap[game] = true;
         return getBoxScore(game);
       });
 
-      ids.forEach(function(game) {
-        if (!liveMap[game] && gameResults[game]) {
-          games.push(gameResults[game]);
+    }
+
+    ids.forEach(function(game) {
+      if (!liveMap[game]) {
+        if (gameResults && gameResults[game]) {
+        games.push(gameResults[game]);
         } else {
           games.push(getBoxScore(game));
         }
-      })
-
-    } else {
-      games = ids.map(function(game) {
-        return getBoxScore(game);
-      });
-    }
-
+      }
+    })
 
     $q.all(games).then(function(results) {
       gameResults = {};
@@ -55,7 +52,9 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
         gameResults[game.gameProfile.gameId] = game;
       });
 
-      PlayerNotification.send(results);
+      if (Datepicker.isEqual(currentDate, Datepicker.getToday())) {
+        PlayerNotification.send(results);
+      }
       deferred.resolve(gameResults);
     });
 
@@ -73,6 +72,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   }
 
   var getDateGames = function(date) {
+    date = date || Datepicker.getToday();
     var deferred = $q.defer();
     var promise = deferred.promise;
 
@@ -89,7 +89,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
       deferred.resolve(info);
     } else if (gamesStorage && !shouldRefresh) {
       scheduleGames = gamesStorage;
-      info.games = games;
+      info.games = scheduleGames;
       deferred.resolve(info);
     } else {
       if (date) url += '/' + dateFilter(date, 'yyyy-M-d');
@@ -155,7 +155,7 @@ angular.module('livecenter').service('Game', function($q, $http, PlayerNotificat
   };
 
   var isFutureGame = function(game) {
-  	return game.boxscore.status === GAME_STATUS.SCHEDULED;
+    return game && game.boxscore.status === GAME_STATUS.SCHEDULED;
   }
 
   var isWinner = function(game, teamId) {

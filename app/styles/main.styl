@@ -46,6 +46,36 @@ nav
         .line
           width 100%
 
+.my-players-container
+  margin-top 2em
+  .notify-player-list
+    width 100%
+    display table
+    .remove
+      padding 1em
+      padding-left 0.5em
+      .remove-icon
+        visibility hidden
+    .player
+      .name
+        padding-left 0
+      &:hover
+        background site_color
+        color site_background
+        .remove
+          color inherit
+          .remove-icon
+            visibility visible
+          &:hover
+            color #8cdeff
+    .name
+      .position
+        font-size 0.6em
+        position relative
+        top -0.4em
+    .controls
+      text-align right
+
 // content
 
 .content
