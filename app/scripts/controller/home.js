@@ -59,6 +59,15 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
     }
   };
 
+  $scope.winnerScore = function(team) {
+    var home = $scope.selectedGame.homeTeam,
+        away = $scope.selectedGame.awayTeam;
+    if (home.profile.id === team.profile.id) {
+      return team.score.score > away.score.score ? 1 : -1;
+    }
+    return team.score.score > home.score.score ? 1 : -1;
+  }
+
   $scope.courtStatus = function(profile) {
     return {
       'starter': profile.isStarter === 'true',

@@ -101,14 +101,21 @@ nav
       font-family site_font
       color site_color
       font-size 0.8em
+      cursor pointer
       &:active
         border-top-color #5cafdb
         border-bottom-color #5cafdb
         color #5cafdb
+      &:hover:not([disabled])
+        background site_color
+        color site_background
+        border-top-color site_background
+        border-bottom-color site_background
       &:disabled
         border-top-color #ccc
         border-bottom-color #ccc
         color #ccc
+        cursor not-allowed
       &:focus
         outline 0
   .calendar
@@ -182,7 +189,7 @@ h2
   cursor pointer
   padding 0.2em
   &.unavailable
-  	cursor not-allowed
+    cursor not-allowed
   &:hover
   &.selected
     background rgba(0,0,95, 0.1)
@@ -224,7 +231,7 @@ table
   .table-header, .name
     font-family 'Open Sans', sans-serif
   .name
-    width 25%
+    width 24%
     text-align left
     padding-left 2em
   .team-name

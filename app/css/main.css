@@ -107,16 +107,24 @@ nav .navigation a:hover .line {
   font-family: 'Open Sans', sans-serif;
   color: #005685;
   font-size: 0.8em;
+  cursor: pointer;
 }
 .calendar-container .button-container .go-today:active {
   border-top-color: #5cafdb;
   border-bottom-color: #5cafdb;
   color: #5cafdb;
 }
+.calendar-container .button-container .go-today:hover:not([disabled]) {
+  background: #005685;
+  color: #f5e7c9;
+  border-top-color: #f5e7c9;
+  border-bottom-color: #f5e7c9;
+}
 .calendar-container .button-container .go-today:disabled {
   border-top-color: #ccc;
   border-bottom-color: #ccc;
   color: #ccc;
+  cursor: not-allowed;
 }
 .calendar-container .button-container .go-today:focus {
   outline: 0;
@@ -244,7 +252,7 @@ table .name {
   font-family: 'Open Sans', sans-serif;
 }
 table .name {
-  width: 25%;
+  width: 24%;
   text-align: left;
   padding-left: 2em;
 }
