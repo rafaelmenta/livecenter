@@ -18,14 +18,14 @@
       <td class="name">{{player.profile.displayName}}
         <span class="position">{{player.profile.position}}</span>
       </td>
-      <td class="points"><input type="checkbox"></td>
-      <td class="fouls"><input type="checkbox"></td>
-      <td class="turnovers"><input type="checkbox"></td>
-      <td class="steals"><input type="checkbox"></td>
-      <td class="blocks"><input type="checkbox"></td>
-      <td class="assists"><input type="checkbox"></td>
-      <td class="defRebs"><input type="checkbox"></td>
-      <td class="offRebs"><input type="checkbox"></td>
+      <td class="points"><input type="checkbox" ng-model="player.options.points"></td>
+      <td class="fouls"><input type="checkbox" ng-model="player.options.fouls"></td>
+      <td class="turnovers"><input type="checkbox" ng-model="player.options.turnovers"></td>
+      <td class="steals"><input type="checkbox" ng-model="player.options.steals"></td>
+      <td class="blocks"><input type="checkbox" ng-model="player.options.blocks"></td>
+      <td class="assists"><input type="checkbox" ng-model="player.options.assists"></td>
+      <td class="defRebs"><input type="checkbox" ng-model="player.options.defRebs"></td>
+      <td class="offRebs"><input type="checkbox" ng-model="player.options.offRebs"></td>
     </tr>
   </table>
 </div>

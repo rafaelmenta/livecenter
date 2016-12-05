@@ -6,10 +6,21 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
   var watchedPlayers;
   var lastStat = {};
 
+  var DEFAULT_OPTIONS = {
+    points : true,
+    fouls : true,
+    turnovers : true,
+    steals : true,
+    blocks : true,
+    assists : true,
+    defRebs : true,
+    offRebs : true
+  };
+
   // private
 
   var getPersistedPlayers = function() {
-    var players = Storage.getItem('players');
+    var players = Storage.getItem('players', true);
     return players;
   }
 
@@ -18,20 +29,20 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     if (!watchedPlayers) watchedPlayers = {};
   };
 
-  var getActivity = function(player) {
+  var getActivity = function(player, options) {
     var activity = [];
     var last = lastStat[player.profile.playerId];
 
     if (last) {
       var stat = player.statTotal;
-      if (stat.points > last.points) activity.push('Score');
-      if (stat.fouls > last.fouls) activity.push('Foul');
-      if (stat.turnovers > last.turnovers) activity.push('Turnover');
-      if (stat.steals > last.steals) activity.push('Steal');
-      if (stat.blocks > last.blocks) activity.push('Block');
-      if (stat.assists > last.assists) activity.push('Assist');
-      if (stat.defRebs > last.defRebs) activity.push('Def Reb');
-      if (stat.offRebs > last.offRebs) activity.push('Off Reb');
+      if (options.points && stat.points > last.points) activity.push('Score');
+      if (options.fouls && stat.fouls > last.fouls) activity.push('Foul');
+      if (options.turnovers && stat.turnovers > last.turnovers) activity.push('Turnover');
+      if (options.steals && stat.steals > last.steals) activity.push('Steal');
+      if (options.blocks && stat.blocks > last.blocks) activity.push('Block');
+      if (options.assists && stat.assists > last.assists) activity.push('Assist');
+      if (options.defRebs && stat.defRebs > last.defRebs) activity.push('Def Reb');
+      if (options.offRebs && stat.offRebs > last.offRebs) activity.push('Off Reb');
 
     }
 
@@ -45,8 +56,9 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
   };
 
   var loadPlayerNotifications = function(player) {
-    if (watchedPlayers[player.profile.playerId]) {
-      var activity = updateStatus(player);
+    var watchedPlayer = watchedPlayers[player.profile.playerId];
+    if (watchedPlayer) {
+      var activity = updateStatus(player, watchedPlayer.options);
       if (activity.length > 0) {
         var message = 'New updates for ' + player.profile.displayName + ': ' + activity.join(', ');
         return message;
@@ -82,6 +94,17 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     });
 
     return notifications;
+  };
+
+  var addPlayer = function(player) {
+    var id = player.profile.playerId;
+
+    watchedPlayers[id] = player;
+    watchedPlayers[id].options = angular.copy(DEFAULT_OPTIONS);
+  };
+
+  var savePlayers function(players) {
+    Storage.setItem('players', JSON.stringify(players), true);
   }
 
   // public
@@ -95,10 +118,10 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     if (watchedPlayers[id]) {
       delete watchedPlayers[id];
     } else {
-      watchedPlayers[id] = player;
-   }
+      addPlayer(player);
+    }
 
-   Storage.setItem('players', JSON.stringify(watchedPlayers), true);
+    savePlayers(watchedPlayers);
   };
 
   var getWatchedPlayers = function() {
@@ -107,14 +130,16 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
 
   var sendNotifications = function(games) {
     var notifications = loadGamesNotifications(games);
-    notifications.forEach(function(msg) {
-      notify(msg);
-    })
+    notifications.forEach(notify);
   };
 
   var removePlayer = function(player) {
     togglePlayer(player);
-  }
+  };
+
+  var updatePlayers = function(players) {
+    savePlayers(players);
+  };
 
   // var requestPermission = function()
 
@@ -125,7 +150,8 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     togglePlayer : togglePlayer,
     watchedPlayers : getWatchedPlayers,
     send : sendNotifications,
-    removePlayer : removePlayer
+    removePlayer : removePlayer,
+    updatePlayers : updatePlayers
   };
 
 });

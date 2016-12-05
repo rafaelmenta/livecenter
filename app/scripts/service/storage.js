@@ -36,9 +36,8 @@ angular.module('livecenter').service('Storage', function($window) {
     return true;
   }
 
-  var getItem = function(key) {
-    if (!isStorageAvailable || isExpired()) return null;
-
+  var getItem = function(key, noExpire) {
+    if (!isStorageAvailable || (!noExpire && isExpired()))  return null;
     return localStorage.getItem(key);
   };
 
