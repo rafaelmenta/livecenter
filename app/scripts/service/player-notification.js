@@ -103,7 +103,7 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     watchedPlayers[id].options = angular.copy(DEFAULT_OPTIONS);
   };
 
-  var savePlayers function(players) {
+  var savePlayers = function(players) {
     Storage.setItem('players', JSON.stringify(players), true);
   }
 
