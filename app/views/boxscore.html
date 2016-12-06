@@ -1,0 +1,89 @@
+<div class="calendar-container">
+  <div class="button-container">
+    <button class="go-today" ng-click="selectToday()" ng-disabled="isToday()">Hoje</button>
+  </div>
+  <ul class="calendar">
+    <li class="backward" ng-click="rotate(true)">&#9664;</li>
+    <li ng-repeat="date in dates()" class="date" ng-class="{ 'selected' : isSelected(date)}" ng-click="selectDate(date)">{{date | date:'MMM d'}}</li>
+    <li class="forward" ng-click="rotate()">&#9658;</li>
+  </ul>
+</div>
+<div class="game-list-container" ng-class="{'loading' : isLoading}">
+  <div class="overlay"><div class="spinner"></div></div>
+  <h2>Jogos do dia</h2>
+  <ul class="game-list">
+    <li class="game-container" ng-repeat="game in games | objOrderBy:'gameProfile.gameId'" ng-click="selectGame(game.gameProfile.gameId)" ng-class="{'selected' : selectedGame.gameProfile.gameId===game.gameProfile.gameId, 'unavailable' : isFutureGame(game)}">
+      <p class="game-team-line" ng-class="isWinner(game, game.homeTeam.profile.id)">{{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span></p>
+      <p class="game-team-line" ng-class="isWinner(game, game.awayTeam.profile.id)">{{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span></p>
+      <small class="status"><span class="live" ng-show="isLive(game)">LIVE</span><span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span></small>
+    </li>
+  </ul>
+</div>
+<div class="boxscore-container">
+  <div class="boxscore" ng-repeat="team in selectedGame && [selectedGame.homeTeam, selectedGame.awayTeam]">
+    <table>
+      <thead class="table-header">
+        <tr>
+          <th colspan="14" class="team-name">{{team.profile.city}} {{team.profile.name}}</th>
+        </tr>
+        <tr>
+          <th class="name">nome</th>
+          <th>mins</th>
+          <th>fg</th>
+          <th>ft</th>
+          <th>3pt</th>
+          <th>or</th>
+          <th>dr</th>
+          <th>reb</th>
+          <th>ast</th>
+          <th>blk</th>
+          <th>stl</th>
+          <th>to</th>
+          <th>f</th>
+          <th>pts</th>
+          <th>fps</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="player in team.gamePlayers" ng-click="togglePlayer(player)" ng-class="{ 'notified' : myPlayers()[player.profile.playerId] }">
+          <td class="name"><span ng-class="courtStatus(player.boxscore)">{{player.profile.displayName}}</span> <span class="position">{{player.profile.position}}</span></td>
+          <td ng-if="player.boxscore.dnpReason" colspan="14" class="dnp">{{player.boxscore.dnpReason}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.mins | digits:2}}:{{player.statTotal.secs | digits:2}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.fgm}}-{{player.statTotal.fga}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.ftm}}-{{player.statTotal.fta}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.tpm}}-{{player.statTotal.tpa}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.offRebs}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.defRebs}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.rebs}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.assists}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.blocks}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.steals}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.turnovers}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.fouls}}</td>
+          <td ng-if="!player.boxscore.dnpReason">{{player.statTotal.points}}</td>
+          <td ng-if="!player.boxscore.dnpReason">
+            {{ player.statTotal.points - 0.4 * player.statTotal.fga - 0.2 * player.statTotal.fta + 1.2 * player.statTotal.offRebs + player.statTotal.defRebs + 1.1 * player.statTotal.assists + 1.2 * player.statTotal.steals + 1.3 * player.statTotal.blocks - 1.1 * player.statTotal.turnovers - player.statTotal.fouls + winnerScore(team) | number:2 }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="totals">
+          <td colspan="2" class="team">time</td>
+          <td>{{team.score.fgm}}-{{team.score.fga}}</td>
+          <td>{{team.score.ftm}}-{{team.score.fta}}</td>
+          <td>{{team.score.tpm}}-{{team.score.tpa}}</td>
+          <td>{{team.score.offRebs}}</td>
+          <td>{{team.score.defRebs}}</td>
+          <td>{{team.score.rebs}}</td>
+          <td>{{team.score.assists}}</td>
+          <td>{{team.score.blocks}}</td>
+          <td>{{team.score.steals}}</td>
+          <td>{{team.score.turnovers}}</td>
+          <td>{{team.score.fouls}}</td>
+          <td>{{team.score.score}}</td>
+          <td>--</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

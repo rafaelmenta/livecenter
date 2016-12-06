@@ -1,18 +1,35 @@
-<html>
+<html ng-app="livecenter">
 <head>
   <title>Draft Brasil Livecenter</title>
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/main.css">
+  <base href="/">
 </head>
 <body>
   <header>
-    <h1>LiveCenter</h1>
     <nav>
+      <h1>LiveCenter</h1>
       <ul class="navigation">
-        <li><a>Meus Jogadores</a></li>
-        <li><a>Box ao Vivo</a></li>
-        <li><a>Configurações</a></li>
+        <li><a ui-sref="boxscore">Box ao Vivo</a><span class="line"></span></li>
+        <li><a ui-sref="myplayers">Meus Jogadores</a><span class="line"></span></li>
+        <li><a ui-sref="settings">Configurações</a><span class="line"></span></li>
       </ul>
     </nav>
   </header>
+  <ui-view class="content"></ui-view>
+  <script src="../vendor/angular/angular.js"></script>
+  <script src="../vendor/angular-ui-router/release/angular-ui-router.min.js "></script>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/config/constant.js"></script>
+  <script src="scripts/filter/digits.js"></script>
+  <script src="scripts/filter/obj-order-by.js"></script>
+  <script src="scripts/controller/home.js"></script>
+  <script src="scripts/controller/my-players.js"></script>
+  <script src="scripts/controller/settings.js"></script>
+  <script src="scripts/service/datepicker.js"></script>
+  <script src="scripts/service/storage.js"></script>
+  <script src="scripts/service/game.js"></script>
+  <script src="scripts/service/user-settings.js"></script>
+  <script src="scripts/service/player-notification.js"></script>
 </body>
 </html>

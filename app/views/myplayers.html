@@ -1,0 +1,32 @@
+<h2>Meus jogadores</h2>
+
+<div class="my-players-container">
+  <p>Voc&ecirc; receber&aacute; notifica&ccedil;&otilde;es para os seguintes jogadores:</p>
+  <table class="notify-player-list">
+    <tr class="header">
+      <th class="name" colspan="2">Jogador</th>
+      <th class="points">pts</th>
+      <th class="fouls">f</th>
+      <th class="turnovers">to</th>
+      <th class="steals">stl</th>
+      <th class="blocks">blk</th>
+      <th class="assists">ast</th>
+      <th class="defRebs">def</th>
+      <th class="offRebs">off</th>
+    </tr>
+    <tr class="player" ng-repeat = "player in players() | objOrderBy:'profile.displayName':a">
+      <td class="remove" ng-click="remove(player)"><span class="remove-icon">x</span></td>
+      <td class="name">{{player.profile.displayName}}
+        <span class="position">{{player.profile.position}}</span>
+      </td>
+      <td class="points"><input type="checkbox" ng-model="player.options.points"></td>
+      <td class="fouls"><input type="checkbox" ng-model="player.options.fouls"></td>
+      <td class="turnovers"><input type="checkbox" ng-model="player.options.turnovers"></td>
+      <td class="steals"><input type="checkbox" ng-model="player.options.steals"></td>
+      <td class="blocks"><input type="checkbox" ng-model="player.options.blocks"></td>
+      <td class="assists"><input type="checkbox" ng-model="player.options.assists"></td>
+      <td class="defRebs"><input type="checkbox" ng-model="player.options.defRebs"></td>
+      <td class="offRebs"><input type="checkbox" ng-model="player.options.offRebs"></td>
+    </tr>
+  </table>
+</div>
