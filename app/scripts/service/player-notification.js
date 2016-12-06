@@ -34,14 +34,14 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     var last = lastStat[player.profile.playerId];
     if (last) {
       var stat = player.statTotal;
-      if (options.points && stat.points > last.points) activity.push('Score');
-      if (options.fouls && stat.fouls > last.fouls) activity.push('Foul');
-      if (options.turnovers && stat.turnovers > last.turnovers) activity.push('Turnover');
-      if (options.steals && stat.steals > last.steals) activity.push('Steal');
-      if (options.blocks && stat.blocks > last.blocks) activity.push('Block');
-      if (options.assists && stat.assists > last.assists) activity.push('Assist');
-      if (options.defRebs && stat.defRebs > last.defRebs) activity.push('Def Reb');
-      if (options.offRebs && stat.offRebs > last.offRebs) activity.push('Off Reb');
+      if (options.points && stat.points > last.points) activity.push('PTS');
+      if (options.fouls && stat.fouls > last.fouls) activity.push('F');
+      if (options.turnovers && stat.turnovers > last.turnovers) activity.push('TO');
+      if (options.steals && stat.steals > last.steals) activity.push('STL');
+      if (options.blocks && stat.blocks > last.blocks) activity.push('BLK');
+      if (options.assists && stat.assists > last.assists) activity.push('AST');
+      if (options.defRebs && stat.defRebs > last.defRebs) activity.push('D REB');
+      if (options.offRebs && stat.offRebs > last.offRebs) activity.push('O REB');
 
     }
 
@@ -60,7 +60,7 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     if (watchedPlayer) {
       var activity = updateStatus(player, watchedPlayer.options);
       if (activity.length > 0) {
-        var message = 'New updates for ' + player.profile.displayName + ': ' + activity.join(', ');
+        var message = 'Nova atualização de ' + player.profile.displayName + ': ' + activity.join(', ');
         return message;
       }
       return false;
