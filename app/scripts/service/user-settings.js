@@ -23,8 +23,8 @@ angular.module('livecenter').service('UserSettings', function(DEFAULT_SETTINGS, 
 
   var init = function() {
     initLoadedSettings();
-    if (!settings) initDefaultSettings;
-    initBroswerSettings;
+    if (!settings) initDefaultSettings();
+    initBroswerSettings();
   }
 
   var updateSetting = function(key, value) {
