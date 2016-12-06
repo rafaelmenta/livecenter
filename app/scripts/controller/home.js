@@ -1,4 +1,4 @@
-angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification, Datepicker) {
+angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification, Datepicker, UserSettings) {
 
   $scope.games = {};
   $scope.myPlayers = PlayerNotification.watchedPlayers;
@@ -34,7 +34,6 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
   }
 
   var gameLoop = function() {
-
     Game.getGames($scope.selectedDate).then(function(data) {
       $scope.games = data;
       $scope.isLoading = false;
@@ -44,8 +43,7 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
       }
     });
 
-    timer = $timeout(gameLoop, 5000);
-
+    timer = $timeout(gameLoop, UserSettings.settings.LOOP_TIME);
   };
 
   $scope.togglePlayer = function(player) {

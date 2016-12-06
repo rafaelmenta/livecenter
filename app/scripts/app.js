@@ -25,5 +25,10 @@ app.config(function($stateProvider, $locationProvider) {
       url : '/meus-jogadores',
       templateUrl: '../views/myplayers.html',
       controller: 'MyPlayers'
+    })
+    .state('settings', {
+      url : '/configuracoes',
+      templateUrl : '../views/settings.html',
+      controller : 'Settings'
     });
 });

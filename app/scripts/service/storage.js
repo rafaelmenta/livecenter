@@ -21,7 +21,14 @@ angular.module('livecenter').service('Storage', function($window) {
   }
 
   var isStorageAvailable = function() {
-    return localStorage && localStorage.setItem && localStorage.getItem;
+    var foo = 'storageTest';
+    try {
+      localStorage.setItem(foo, foo);
+      localStorage.removeItem(foo);
+      return true;
+    } catch (e) {
+      return false;
+    }
   };
 
   // public
@@ -44,7 +51,8 @@ angular.module('livecenter').service('Storage', function($window) {
   return {
     setItem : setItem,
     getItem : getItem,
-    isExpired : isExpired
+    isExpired : isExpired,
+    isStorageAvailable: isStorageAvailable
   };
 
 });

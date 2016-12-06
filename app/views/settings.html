@@ -1,0 +1,22 @@
+<h2>Configura&ccedil;&otilde;es</h2>
+
+<h3>Gerais</h3>
+<fieldset>
+  <label><span>Armarzenamento local</span> <input type="text" readonly ng-value="settings.storage.enabled ? 'Ativado' : 'Desativado'"></label>
+  <br>
+  <small><i>Otimiza o uso da rede ao salvar informações que serão reutilizadas.</i></small>
+</fieldset>
+
+<h3>Boxscore</h3>
+<fieldset>
+  <label ng-class="{'valid' : changeStatus === true, 'invalid' : changeStatus === false}"><span>Taxa de atualiza&ccedil;&atilde;o ({{settings.LOOP_TIME / 1000 | number:2}}s)</span> <input type="text " ng-value="settings.LOOP_TIME / 1000" ng-model="settings.LOOP_TIME"></label>
+  <br>
+  <small><i>Tempo de espera para atualizar os boxscores (m&iacute;nimo 5s)</i>  </small>
+</fieldset>
+
+<h3>Notifica&ccedil;&otilde;es</h3>
+<fieldset>
+  <label><span>Notifica&ccedil;&atilde;o pelo navegador</span> <input type="text" readonly ng-value="settings.notifications.permission === 'granted' ? 'Ativado' : 'Desativado'"></label>
+  <br>
+  <small><i>Permite que voc&ecirc; seja notificado sobre o progresso de algum jogador</i><br><i>Essa configura&ccedil;&atilde;o s&oacute; pode ser alterada no seu navegador</i></small>
+</fieldset>

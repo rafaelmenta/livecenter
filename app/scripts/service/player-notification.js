@@ -32,7 +32,6 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
   var getActivity = function(player, options) {
     var activity = [];
     var last = lastStat[player.profile.playerId];
-
     if (last) {
       var stat = player.statTotal;
       if (options.points && stat.points > last.points) activity.push('Score');
@@ -50,7 +49,8 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
   };
 
   var updateStatus = function(player) {
-    var activity = getActivity(player);
+    var options = watchedPlayers[player.profile.playerId].options;
+    var activity = getActivity(player, options);
     lastStat[player.profile.playerId] = player.statTotal;
     return activity;
   };
@@ -141,7 +141,10 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     savePlayers(players);
   };
 
-  // var requestPermission = function()
+  var getPermission = function() {
+    var permission = Notification.permission;
+    return permission;
+  };
 
   initNotificatonPlayers();
 
@@ -151,7 +154,8 @@ angular.module('livecenter').service('PlayerNotification', function($window, Sto
     watchedPlayers : getWatchedPlayers,
     send : sendNotifications,
     removePlayer : removePlayer,
-    updatePlayers : updatePlayers
+    updatePlayers : updatePlayers,
+    getPermission : getPermission
   };
 
 });

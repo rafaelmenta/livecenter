@@ -1,6 +1,7 @@
 site_color = #005685
 site_background = #f5e7c9
 green = #32d99c
+red = #d93644
 site_font = 'Open Sans', sans-serif
 
 body
@@ -27,6 +28,7 @@ nav
     a
       display inline
       margin 0.5em
+      margin-left 0
       color #5cafdb
       position relative
       cursor pointer
@@ -318,3 +320,41 @@ tr
     -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
   }
 }
+
+// settings
+
+fieldset
+  padding 0
+  font-size 1em
+  padding-left 1em
+  border none
+  label
+    padding 0
+    padding-left 0.5em
+    background site_color
+    @media (min-width: 1013px)
+      width 45%
+    color site_background
+    display inline-block
+    span
+      position relative
+      top 0.5em
+    &.valid
+      background green
+      input
+        border-color green
+    &.invalid
+      background red
+      input
+        border-color red
+  input
+    float right
+    margin 0
+    padding 0.5em
+    font-size 1em
+    border solid 2px site_color
+    color site_color
+  small
+    font-size 0.8em
+    i
+      padding-left 0.5em
