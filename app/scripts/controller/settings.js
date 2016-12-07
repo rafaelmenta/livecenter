@@ -1,4 +1,4 @@
-angular.module('livecenter').controller('Settings', function($scope, UserSettings) {
+angular.module('livecenter').controller('Settings', ['$scope', 'UserSettings', function($scope, UserSettings) {
 
   $scope.settings = UserSettings.settings;
 
@@ -7,4 +7,4 @@ angular.module('livecenter').controller('Settings', function($scope, UserSetting
     $scope.changeStatus = UserSettings.updateLoopTime(newV);
   });
 
-});
+}]);

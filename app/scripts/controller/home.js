@@ -1,4 +1,6 @@
-angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification, Datepicker, UserSettings) {
+angular.module('livecenter').controller('Home', [
+  '$scope', '$timeout', 'Game', 'PlayerNotification', 'Datepicker', 'UserSettings',
+  function($scope, $timeout, Game, PlayerNotification, Datepicker, UserSettings) {
 
   $scope.games = {};
   $scope.myPlayers = PlayerNotification.watchedPlayers;
@@ -78,4 +80,4 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
 
   $scope.isLive = Game.isGameLive;
   $scope.isFutureGame = Game.isFutureGame;
-});
+}]);

@@ -1,4 +1,4 @@
-angular.module('livecenter').service('Storage', function($window) {
+angular.module('livecenter').service('Storage', [ '$window', function($window) {
 
   var localStorage = $window.localStorage;
 
@@ -55,4 +55,4 @@ angular.module('livecenter').service('Storage', function($window) {
     isStorageAvailable: isStorageAvailable
   };
 
-});
+}]);

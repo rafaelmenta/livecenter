@@ -16,7 +16,7 @@ module.exports = function(gulp, path) {
       .pipe(concat('scripts.js'))
       .pipe(gulp.dest(`${path}/js`))
       .pipe(rename('scripts.min.js'))
-      // .pipe(uglify())
+      .pipe(uglify())
       .pipe(gulp.dest(`${path}/js`));
 
     gulp.src(vendors)

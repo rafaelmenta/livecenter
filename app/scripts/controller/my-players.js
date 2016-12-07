@@ -1,4 +1,4 @@
-angular.module('livecenter').controller('MyPlayers', function($scope, PlayerNotification) {
+angular.module('livecenter').controller('MyPlayers', ['$scope', 'PlayerNotification', function($scope, PlayerNotification) {
 
   $scope.players = PlayerNotification.watchedPlayers;
   $scope.remove = PlayerNotification.removePlayer;
@@ -7,4 +7,4 @@ angular.module('livecenter').controller('MyPlayers', function($scope, PlayerNoti
     PlayerNotification.updatePlayers(newPlayers);
   }, true);
 
-});
+}]);
