@@ -17,7 +17,7 @@ var cleanTask = require('./gulp/task/clean')(gulp, distPath);
 gulp.task('stylus', stylusTask);
 gulp.task('clean', cleanTask);
 gulp.task('default', ['stylus'], defaultTask);
-gulp.task('build', ['clean'], buildTask);
+gulp.task('build', ['clean', 'stylus'], buildTask);
 gulp.task('build-server', function() {
   browserSync({
     server : {
