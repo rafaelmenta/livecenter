@@ -4,15 +4,14 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var htmlreplace = require('gulp-html-replace');
 
-var vendors = [
-  './node_modules/angular/angular.min.js',
-  './node_modules/angular-ui-router/release/angular-ui-router.min.js'
-];
+module.exports = function(gulp, options) {
+  var path = options.distPath;
+  var appPath = options.appPath;
+  var vendors = options.vendors;
 
-module.exports = function(gulp, path) {
   return function() {
 
-    gulp.src('./app/scripts/**/*.js')
+    gulp.src(`${appPath}/scripts/**/*.js`)
       .pipe(concat('scripts.js'))
       .pipe(gulp.dest(`${path}/js`))
       .pipe(rename('scripts.min.js'))
@@ -23,10 +22,10 @@ module.exports = function(gulp, path) {
       .pipe(concat('vendors.js'))
       .pipe(gulp.dest(`${path}/js`));
 
-    gulp.src('./app/views/**/*.html')
+    gulp.src(`${appPath}/views/**/*.html`)
       .pipe(gulp.dest(`${path}/views/`));
 
-    gulp.src('./app/index.html')
+    gulp.src(`${appPath}/index.html`)
       .pipe(htmlreplace({
         js : `js/scripts.min.js`,
         vendor : {
@@ -36,7 +35,7 @@ module.exports = function(gulp, path) {
       }))
       .pipe(gulp.dest(`${path}/`));
 
-    gulp.src('./app/css/**/*.css')
+    gulp.src(`${appPath}/css/**/*.css`)
       .pipe(cleanCSS())
       .pipe(gulp.dest(`${path}/css/`));
   }
