@@ -124,18 +124,24 @@ nav
     list-style none
     display flex
     padding 0
+    position relative
     .backward
     .forward
-      margin auto
       font-size 1.5em
       cursor pointer
+      margin auto
+      width 2%
+      color site_color
       &:hover
         color green
+    .backward:after
+      content '\2190'
+    .forward:after
+      content '\2192'
     .date
       display inline
       margin 1em
-      margin-top 0.5em
-      width 100%
+      width 24%
       padding 0.5em
       text-align center
       border-top solid 1px site_color
