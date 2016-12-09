@@ -44,7 +44,7 @@ module.exports = function(gulp, options) {
       }))
       .pipe(gulp.dest(`${path}/`));
 
-    gulp.src(`${appPath}/css/**/*.css`)
+    gulp.src(`${appPath}/css/**/main.css`)
       .pipe(cleanCSS())
       .pipe(rename(cssFilename))
       .pipe(gulp.dest(`${path}/css/`));

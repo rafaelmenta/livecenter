@@ -1,4 +1,4 @@
-angular.module('livecenter').service('Storage', [ '$window', function($window) {
+app.service('Storage', [ '$window', function($window) {
 
   var localStorage = $window.localStorage;
 

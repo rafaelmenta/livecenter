@@ -1,4 +1,4 @@
-angular.module('livecenter').service('Game', ['$q', '$http', 'PlayerNotification', 'API', 'Storage', 'Datepicker', '$filter', function($q, $http, PlayerNotification, API, Storage, Datepicker, $filter) {
+app.service('Game', ['$q', '$http', 'PlayerNotification', 'API', 'Storage', 'Datepicker', '$filter', function($q, $http, PlayerNotification, API, Storage, Datepicker, $filter) {
 
   var GAMES_API = API.GAMES;
   var API = API.BOX;

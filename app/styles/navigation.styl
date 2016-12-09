@@ -1,0 +1,67 @@
+@import 'variables.styl'
+// navigation
+
+h1
+  color #baffff
+  display inline
+
+header
+  background #005685
+  padding 0.5em
+nav
+  display inline
+  .navigation
+    display inline
+    li
+    a
+      display inline
+      margin 0.5em
+      margin-left 0
+      color #5cafdb
+      position relative
+      cursor pointer
+      text-decoration none
+      .line
+        background #8cdeff
+        display inline-block
+        position absolute
+        top 1.3em
+        left 0
+        width 0
+        height 0.1em
+        transition all 0.3s ease-out
+      &:hover
+        color #8cdeff
+        text-decoration none
+        .line
+          width 100%
+
+.my-players-container
+  margin-top 2em
+  .notify-player-list
+    width 100%
+    display table
+    .remove
+      padding 1em
+      padding-left 0.5em
+      .remove-icon
+        visibility hidden
+    .player
+      .name
+        padding-left 0
+      &:hover
+        background site_color
+        color site_background
+        .remove
+          color inherit
+          .remove-icon
+            visibility visible
+          &:hover
+            color #8cdeff
+    .name
+      .position
+        font-size 0.6em
+        position relative
+        top -0.4em
+    .controls
+      text-align right

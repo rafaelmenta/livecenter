@@ -1,7 +1,6 @@
-angular.module('livecenter').service('PlayerNotification', ['$window', 'Storage', function($window, Storage) {
+app.service('PlayerNotification', ['$window', 'Storage', function($window, Storage) {
 
   var Notification = $window.Notification || {};
-  var permission;
 
   var watchedPlayers;
   var lastStat = {};

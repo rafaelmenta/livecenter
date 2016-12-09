@@ -1,4 +1,4 @@
-angular.module('livecenter').filter('objOrderBy', function() {
+app.filter('objOrderBy', function() {
   return function(items, field, reverse) {
     var filtered = Object.keys(items).map(function(item) { return items[item]});
 
