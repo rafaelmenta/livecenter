@@ -1,4 +1,4 @@
-angular.module('livecenter').service('UserSettings', function(DEFAULT_SETTINGS, Storage, PlayerNotification) {
+app.service('UserSettings', ['DEFAULT_SETTINGS', 'Storage', 'PlayerNotification', function(DEFAULT_SETTINGS, Storage, PlayerNotification) {
   var settings;
 
   var initDefaultSettings = function() {
@@ -47,4 +47,4 @@ angular.module('livecenter').service('UserSettings', function(DEFAULT_SETTINGS, 
     settings : settings,
     updateLoopTime : updateLoopTime
   };
-});
+}]);

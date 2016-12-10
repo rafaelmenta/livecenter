@@ -1,4 +1,4 @@
-angular.module('livecenter').service('Datepicker', function() {
+app.service('Datepicker', function() {
 
   var today = new Date();
   var carouselDates, selectedDate;

@@ -1,3 +1,4 @@
 node_modules/
-app/css
 dist/
+dist/
+app/css/
