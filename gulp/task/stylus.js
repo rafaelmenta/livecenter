@@ -1,4 +1,7 @@
-module.exports = function(gulp, stylus, data, reload) {
+var data = require('gulp-data');
+var stylus = require('gulp-stylus');
+
+module.exports = function(gulp, reload) {
   return function() {
     gulp.src('./app/styles/**/*.styl')
       .pipe(data(function(file) {
@@ -10,4 +13,5 @@ module.exports = function(gulp, stylus, data, reload) {
       .pipe(gulp.dest('./app/css'))
       .pipe(reload({stream : true}));
   };
+
 };

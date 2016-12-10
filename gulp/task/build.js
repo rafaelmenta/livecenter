@@ -4,6 +4,8 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var htmlreplace = require('gulp-html-replace');
 var git = require('git-rev');
+var data = require('gulp-data');
+var stylus = require('gulp-stylus');
 
 module.exports = function(gulp, options) {
   var path = options.distPath;
@@ -44,10 +46,17 @@ module.exports = function(gulp, options) {
       }))
       .pipe(gulp.dest(`${path}/`));
 
-    gulp.src(`${appPath}/css/**/main.css`)
+    gulp.src(`${appPath}/styles/**/main.styl`)
+      .pipe(data(function(file) {
+        return {
+          componentPath: '/' + (file.path.replace(file.base, '').replace(/\/[^\/]*$/, ''))
+        };
+      }))
+      .pipe(stylus())
       .pipe(cleanCSS())
       .pipe(rename(cssFilename))
       .pipe(gulp.dest(`${path}/css/`));
+
   });
   }
 };
