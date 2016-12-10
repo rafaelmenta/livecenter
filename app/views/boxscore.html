@@ -3,9 +3,9 @@
     <button class="go-today" ng-click="selectToday()" ng-disabled="isToday()">Hoje</button>
   </div>
   <ul class="calendar">
-    <li class="backward" ng-click="rotate(true)">&#9664;</li>
+    <li class="backward" ng-click="rotate(true)"></li>
     <li ng-repeat="date in dates()" class="date" ng-class="{ 'selected' : isSelected(date)}" ng-click="selectDate(date)">{{date | date:'MMM d'}}</li>
-    <li class="forward" ng-click="rotate()">&#9658;</li>
+    <li class="forward" ng-click="rotate()"></li>
   </ul>
 </div>
 <div class="game-list-container" ng-class="{'loading' : isLoading}">
@@ -24,7 +24,7 @@
     <table>
       <thead class="table-header">
         <tr>
-          <th colspan="14" class="team-name">{{team.profile.city}} {{team.profile.name}}</th>
+          <th colspan="15" class="team-name">{{team.profile.city}} {{team.profile.name}}</th>
         </tr>
         <tr>
           <th class="name">nome</th>

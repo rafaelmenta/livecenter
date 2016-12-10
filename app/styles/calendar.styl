@@ -1,0 +1,67 @@
+@import 'variables.styl'
+// calendar
+
+.calendar-container
+  .button-container
+    width 100%
+    margin-top 1em
+    .go-today
+      margin auto
+      display block
+      padding 0.5em
+      width 8%
+      background site_background
+      border none
+      border-top solid 1px site_color
+      border-bottom solid 1px site_color
+      font-family site_font
+      color site_color
+      font-size 0.8em
+      cursor pointer
+      &:active
+        border-top-color #5cafdb
+        border-bottom-color #5cafdb
+        color #5cafdb
+      &:hover:not([disabled])
+        background site_color
+        color site_background
+        border-top-color site_background
+        border-bottom-color site_background
+      &:disabled
+        border-top-color #ccc
+        border-bottom-color #ccc
+        color #ccc
+        cursor not-allowed
+      &:focus
+        outline 0
+  .calendar
+    list-style none
+    display flex
+    padding 0
+    position relative
+    .backward
+    .forward
+      font-size 1.5em
+      cursor pointer
+      margin auto
+      width 2%
+      color site_color
+      &:hover
+        color color_green
+    .backward:after
+      content '\2190'
+    .forward:after
+      content '\2192'
+    .date
+      display inline
+      margin 1em
+      width 24%
+      padding 0.5em
+      text-align center
+      border-top solid 1px site_color
+      border-bottom solid 1px site_color
+      cursor pointer
+      &.selected
+      &:hover
+        background site_color
+        color site_background

@@ -2,7 +2,9 @@
 <head>
   <title>Draft Brasil Livecenter</title>
   <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans" rel="stylesheet">
+  <!-- build:css -->
   <link rel="stylesheet" type="text/css" href="./css/main.css">
+  <!-- endbuild -->
   <base href="/">
 </head>
 <body>
@@ -17,8 +19,12 @@
     </nav>
   </header>
   <ui-view class="content"></ui-view>
+
+  <!-- build:vendor -->
   <script src="../vendor/angular/angular.js"></script>
   <script src="../vendor/angular-ui-router/release/angular-ui-router.min.js "></script>
+  <!-- endbuild -->
+  <!-- build:js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/config/constant.js"></script>
   <script src="scripts/filter/digits.js"></script>
@@ -31,5 +37,6 @@
   <script src="scripts/service/game.js"></script>
   <script src="scripts/service/user-settings.js"></script>
   <script src="scripts/service/player-notification.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

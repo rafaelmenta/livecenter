@@ -1,0 +1,68 @@
+@import 'variables.styl'
+// boxscore
+
+table
+  font-family 'Droid Sans Mono', monospace
+  font-size 0.8em
+  border-spacing 0
+  max-width 1023px
+  text-align right
+  color #6c6d6f
+  margin auto
+  display block
+  .table-header, .name
+    font-family 'Open Sans', sans-serif
+  .name
+    width 24%
+    text-align left
+    padding-left 2em
+  .team-name
+    background site_background
+    color site_color
+    text-align left
+
+th
+  background #6c6d6f
+  padding 0.5em
+  padding-right 2em
+  color #fff
+td
+  padding 0.3em
+  padding-right 2em
+  margin 0
+tr:nth-child(odd)
+  background #d8e8e8
+tr:nth-child(even)
+  background #fff
+tr
+  cursor pointer
+  &:hover
+    background lightyellow
+.notified
+  background #e6b332 !important
+
+.boxscore-container
+  // display table
+  margin auto
+
+.boxscore
+  margin 1em
+  // max-width 1023px
+  .starter
+    &::after
+      content '*'
+  .on-court
+    font-weight bold
+    color #d93644
+  .position
+    font-size 0.7em
+    position relative
+    top -4px
+  .dnp
+    text-align center
+  .totals
+    background #ccc
+    font-weight bold
+  .team
+    text-align center
+    font-family 'Open Sans', sans-serif

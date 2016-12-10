@@ -12,7 +12,7 @@ app.config(function() {
   };
 });
 
-app.config(function($stateProvider, $locationProvider) {
+app.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 
   $stateProvider
@@ -31,4 +31,4 @@ app.config(function($stateProvider, $locationProvider) {
       templateUrl : '../views/settings.html',
       controller : 'Settings'
     });
-});
+}]);

@@ -1,7 +1,7 @@
-angular.module('livecenter').controller('Home', function($scope, $timeout, Game, PlayerNotification, Datepicker, UserSettings) {
+app.controller('Home', [
+  '$scope', '$timeout', 'Game', 'PlayerNotification', 'Datepicker', 'UserSettings',
+  function($scope, $timeout, Game, PlayerNotification, Datepicker, UserSettings) {
 
-  $scope.games = {};
-  $scope.myPlayers = PlayerNotification.watchedPlayers;
   $scope.isWinner = function(game, teamId) {
     return {
       'winner' : Game.isWinner(game, teamId)
@@ -12,18 +12,12 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
     return !$scope.selectedDate || Datepicker.isEqual(Datepicker.getToday(), $scope.selectedDate);
   };
 
-  Datepicker.selectDate();
-  $scope.dates = Datepicker.getCarousel;
-  $scope.rotate = Datepicker.rotateCarousel;
-  $scope.isSelected = Datepicker.isDateSelected;
-
-  var timer;
-
   $scope.selectToday = function() {
     $scope.selectDate(Datepicker.getToday());
     Datepicker.resetCarousel();
   }
 
+  var timer;
   $scope.selectDate = function(date) {
     $timeout.cancel(timer);
     Datepicker.selectDate(date);
@@ -71,11 +65,19 @@ angular.module('livecenter').controller('Home', function($scope, $timeout, Game,
       'starter': profile.isStarter === 'true',
       'on-court':  profile.onCourt === 'true'
     };
-
   };
 
-  gameLoop();
+  // init
+  (function() {
+    $scope.games = {};
+    $scope.myPlayers = PlayerNotification.watchedPlayers;
+    Datepicker.selectDate();
+    $scope.dates = Datepicker.getCarousel;
+    $scope.rotate = Datepicker.rotateCarousel;
+    $scope.isSelected = Datepicker.isDateSelected;
+    $scope.isLive = Game.isGameLive;
+    $scope.isFutureGame = Game.isFutureGame;
 
-  $scope.isLive = Game.isGameLive;
-  $scope.isFutureGame = Game.isFutureGame;
-});
+    gameLoop();
+  })();
+}]);
