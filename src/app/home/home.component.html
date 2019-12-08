@@ -1,0 +1,13 @@
+<app-date-picker (dateChanged)="loadGames($event)"></app-date-picker>
+
+<h2>Jogos do dia</h2>
+<div *ngIf="games$ | async as games">
+  <app-game-card
+    *ngFor="let game of games"
+    [gameId]="game.external_id"
+    [selected]="isSelected(game)"
+    (gameSelected)="selectGame($event)"
+  ></app-game-card>
+</div>
+
+<app-boxscore *ngIf="selectedGame" [game]="selectedGame"></app-boxscore>

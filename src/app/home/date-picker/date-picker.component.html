@@ -1,0 +1,15 @@
+<div class="button-container">
+  <button (click)="selectToday()" [disabled]="isToday">Hoje</button>
+</div>
+
+<ul class="calendar">
+  <li class="backward" (click)="rotateBackward()"></li>
+
+  <li
+    *ngFor="let date of carouselDates"
+    class="date"
+    [class.selected]="isSelected(date)"
+    (click)="selectDate(date)">{{date | date:'MMM d'}}</li>
+
+  <li class="forward" (click)="rotateForward()"></li>
+</ul>

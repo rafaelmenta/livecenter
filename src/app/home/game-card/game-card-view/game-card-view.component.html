@@ -1,0 +1,17 @@
+<div
+  class="game-container"
+  (click)="selectGame()"
+  [class.selected]="selected"
+  [class.unavailable]="isFuture"
+>
+  <p class="game-team-line" [class.winner]="isWinner(game.homeTeam.profile.id)">
+    {{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span>
+  </p>
+  <p class="game-team-line" [class.winner]="isWinner(game.awayTeam.profile.id)">
+    {{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span>
+  </p>
+  <small class="status">
+    <span class="live" *ngIf="isLive">LIVE</span>
+    <span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span>
+  </small>
+</div>

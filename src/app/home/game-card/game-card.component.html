@@ -1,0 +1,6 @@
+<app-game-card-view
+  *ngIf="game$ | async as game"
+  [game]="game"
+  [selected]="selected"
+  (gameSelected)="onGameSelection($event)"
+></app-game-card-view>

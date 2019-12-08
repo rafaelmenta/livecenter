@@ -1,0 +1,60 @@
+
+/* site_color = #005685
+site_background = #f5e7c9
+color_green = #32d99c
+color_red = #d93644
+ */
+
+h1 {
+  color: #baffff;
+  display: inline;
+  font-size: 1.5em;
+}
+
+header {
+  background: #005685;
+  padding: 0.75em;
+}
+
+nav {
+  display: inline;
+
+}
+
+.navigation {
+  display: inline;
+  margin-left: 2em;
+}
+
+li {
+  display: inline;
+  margin: 1em;
+  margin-left: 0;
+  position: relative;
+  cursor: pointer;
+}
+
+a {
+  color: #5cafdb;
+  text-decoration: none;
+  transition: all 0.2s ease-out;
+}
+
+a:hover {
+  color: #8cdeff;
+}
+
+.line {
+  background: #8cdeff;
+  display: inline-block;
+  position: absolute;
+  top: 1.3em;
+  left: 0;
+  width: 0;
+  height: 0.1em;
+  transition: all 0.2s ease-out;
+}
+
+li:hover .line {
+  width: 100%;
+}

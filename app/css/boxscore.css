@@ -1,0 +1,79 @@
+table {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: 0.8em;
+  border-spacing: 0;
+  max-width: 1023px;
+  text-align: right;
+  color: #6c6d6f;
+  margin: auto;
+  display: block;
+}
+table .table-header,
+table .name {
+  font-family: 'Open Sans', sans-serif;
+}
+table .name {
+  width: 24%;
+  text-align: left;
+  padding-left: 2em;
+}
+table .team-name {
+  background: #f5e7c9;
+  color: #005685;
+  text-align: left;
+}
+th {
+  background: #6c6d6f;
+  padding: 0.5em;
+  padding-right: 2em;
+  color: #fff;
+}
+td {
+  padding: 0.3em;
+  padding-right: 2em;
+  margin: 0;
+}
+tr:nth-child(odd) {
+  background: #d8e8e8;
+}
+tr:nth-child(even) {
+  background: #fff;
+}
+tr {
+  cursor: pointer;
+}
+tr:hover {
+  background: #ffffe0;
+}
+.notified {
+  background: #e6b332 !important;
+}
+.boxscore-container {
+  margin: auto;
+}
+.boxscore {
+  margin: 1em;
+}
+.boxscore .starter::after {
+  content: '*';
+}
+.boxscore .on-court {
+  font-weight: bold;
+  color: #d93644;
+}
+.boxscore .position {
+  font-size: 0.7em;
+  position: relative;
+  top: -4px;
+}
+.boxscore .dnp {
+  text-align: center;
+}
+.boxscore .totals {
+  background: #ccc;
+  font-weight: bold;
+}
+.boxscore .team {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
