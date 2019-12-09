@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService, GameInfo, GameData } from '../service/game.service';
 import { Observable, combineLatest, zip } from 'rxjs';
-import { map, flatMap, mergeAll } from 'rxjs/operators';
+import { map, flatMap, mergeAll, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit {
   games$: Observable<GameInfo[]>;
 
   selectedGame?: GameData;
+
+  gameData: GameData;
 
   constructor(
     private readonly game: GameService,
@@ -30,6 +32,13 @@ export class HomeComponent implements OnInit {
 
   selectGame(game: GameData) {
     this.selectedGame = game;
+    this.gameData = game;
+  }
+
+  updateBoxscore(game: GameData) {
+    if (this.selectedGame && this.selectedGame.gameProfile.gameId === game.gameProfile.gameId) {
+      this.gameData = game;
+    }
   }
 
   ngOnInit() {

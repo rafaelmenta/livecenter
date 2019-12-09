@@ -7,7 +7,8 @@
     [gameId]="game.external_id"
     [selected]="isSelected(game)"
     (gameSelected)="selectGame($event)"
+    (gameUpdated)="updateBoxscore($event)"
   ></app-game-card>
 </div>
 
-<app-boxscore *ngIf="selectedGame" [game]="selectedGame"></app-boxscore>
+<app-boxscore *ngIf="gameData" [game]="gameData"></app-boxscore>

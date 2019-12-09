@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GameService, GameData, GAME_STATE } from 'src/app/service/game.service';
 import { Observable, timer } from 'rxjs';
-import { flatMap, takeWhile } from 'rxjs/operators';
+import { flatMap, takeWhile, tap } from 'rxjs/operators';
 
 /**
  * Frequency of game data polling
@@ -31,6 +31,11 @@ export class GameCardComponent implements OnInit {
   @Output() gameSelected = new EventEmitter<GameData>();
 
   /**
+   * Emits an event with the latest update on game data
+   */
+  @Output() gameUpdated = new EventEmitter<GameData>();
+
+  /**
    * Game stream
    */
   game$: Observable<GameData>;
@@ -42,6 +47,7 @@ export class GameCardComponent implements OnInit {
   ngOnInit() {
     this.game$ = timer(0, POLLING_INTERVAL).pipe(
       flatMap(() => this.gameService.getGameData(this.gameId)),
+      tap(game => this.gameUpdated.emit(game)),
       takeWhile(game => this.isGamePending(game)),
     );
   }
