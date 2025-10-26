@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   }
 
   isSelected(game: GameInfo) {
-    return this.selectedGame && this.selectedGame.gameProfile.gameId === game.external_id;
+    return this.selectedGame && this.selectedGame.header.id === game.external_id;
   }
 
   selectGame(game: GameData) {
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateBoxscore(game: GameData) {
-    if (this.selectedGame && this.selectedGame.gameProfile.gameId === game.gameProfile.gameId) {
+    if (this.selectedGame && this.selectedGame.header.id === game.header.id) {
       this.gameData = game;
     }
   }

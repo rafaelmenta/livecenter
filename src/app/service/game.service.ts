@@ -26,7 +26,7 @@ export class GameService {
   }
 
   getGameData(gameId: string) {
-    return this.http.get<RawGameData>(`${this.DATA_API}/${gameId}`).pipe(map(res => res.payload));
+    return this.http.get<GameData>(`${this.DATA_API}/${gameId}`).pipe(map(res => res));
   }
 }
 
@@ -42,6 +42,8 @@ export interface GameData {
     status: GAME_STATE,
     awayScore: string;
     homeScore: string;
+    teams: any;
+    players: any;
   };
   gameProfile: {
     awayTeamId: string;
@@ -50,6 +52,7 @@ export interface GameData {
   };
   awayTeam: TeamData;
   homeTeam: TeamData;
+  header: any;
 }
 
 export interface TeamData {
@@ -59,12 +62,15 @@ export interface TeamData {
   score: {
     score: number;
   };
+  info: any;
+  players: any;
+  team: any;
 }
 
 export enum GAME_STATE {
-  SCHEDULED = '1',
-  ONGOING = '2',
-  FINAL = '3',
+  SCHEDULED = 'STATUS_SCHEDULED',
+  ONGOING = 'STATUS_IN_PROGRESS',
+  FINAL = 'STATUS_FINAL',
 };
 
 

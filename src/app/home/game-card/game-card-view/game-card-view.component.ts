@@ -20,11 +20,11 @@ export class GameCardViewComponent implements OnInit {
   }
 
   get isLive() {
-    return this.game.boxscore.status === GAME_STATE.ONGOING;
+    return this.game.header.competitions[0].status.type.name === GAME_STATE.ONGOING;
   }
 
   get isFuture() {
-    return this.game.boxscore.status === GAME_STATE.SCHEDULED;
+    return this.game.header.competitions[0].status.type.name === GAME_STATE.SCHEDULED;
   }
 
   selectGame() {

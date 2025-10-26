@@ -4,14 +4,15 @@
   [class.selected]="selected"
   [class.unavailable]="isFuture"
 >
-  <p class="game-team-line" [class.winner]="isWinner(game.homeTeam.profile.id)">
-    {{game.homeTeam.profile.abbr}} <span class="score">{{game.homeTeam.score.score}}</span>
+  <p class="game-team-line" [class.winner]="game.header.competitions[0].competitors[0].winner">
+    {{game.header.competitions[0].competitors[0].team.abbreviation}} <span class="score">{{game.header.competitions[0].competitors[0].score}}</span>
   </p>
-  <p class="game-team-line" [class.winner]="isWinner(game.awayTeam.profile.id)">
-    {{game.awayTeam.profile.abbr}} <span class="score">{{game.awayTeam.score.score}}</span>
+  <p class="game-team-line" [class.winner]="game.header.competitions[0].competitors[1].winner">
+    {{game.header.competitions[0].competitors[1].team.abbreviation}} <span class="score">{{game.header.competitions[0].competitors[1].score}}</span>
   </p>
   <small class="status">
     <span class="live" *ngIf="isLive">LIVE</span>
-    <span class="statusDesc">{{game.boxscore.statusDesc}} {{game.boxscore.periodClock}}</span>
+    <span class="statusDesc" *ngIf="isLive">{{game.header.competitions[0].status.displayClock}} {{game. header.competitions[0].status.displayPeriod}}</span>
+    <span class="statusDesc" *ngIf="isFuture">{{game.header.competitions[0].status.type.shortDetail}}</span>
   </small>
 </div>

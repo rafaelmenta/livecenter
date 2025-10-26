@@ -19,4 +19,8 @@ h2 {
   :host {
     padding: 0;
   }
+
+  div {
+    flex-direction: column;
+  }
 }
