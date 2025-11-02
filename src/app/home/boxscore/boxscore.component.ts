@@ -24,18 +24,20 @@ export class BoxscoreComponent implements OnChanges {
   constructor() { }
 
   ngOnChanges() {
+    const homeIndex = this.game.header.competitions[0].competitors[0].homeAway === 'home' ? 0 : 1;
+    const awayIndex = homeIndex === 0 ? 1 : 0;
     this.home = {
       team: this.game.boxscore.teams[1] as any,
       players: this.game.boxscore.players[1] as any,
-      info: this.game.header.competitions[0].competitors[0],
-      score: this.game.header.competitions[0].competitors[0].score,
+      info: this.game.header.competitions[0].competitors[homeIndex],
+      score: Number(this.game.header.competitions[0].competitors[homeIndex].score),
     };
 
     this.away = {
       team: this.game.boxscore.teams[0] as any,
       players: this.game.boxscore.players[0] as any,
-      info: this.game.header.competitions[0].competitors[1],
-      score: this.game.header.competitions[0].competitors[1].score,
+      info: this.game.header.competitions[0].competitors[awayIndex],
+      score: Number(this.game.header.competitions[0].competitors[awayIndex].score),
     };
   }
 
